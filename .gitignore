@@ -13,3 +13,5 @@ artifacts/
 __pycache__/
 *.py[cod]
 qa-*.png
+*.log
+*.log
