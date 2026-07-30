@@ -1,0 +1,10 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C",
+  "transactionHash": "0xeec6d68a5cf453c658d364b58fcb7b6634f61f46d7b60e255946e8da5939c38a",
+  "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
+  "publisher": "AbstrusImad",
+  "explorer": "https://explorer-studio.genlayer.com",
+  "deployedAt": "2026-07-30T21:32:23.426Z"
+}

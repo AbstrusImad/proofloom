@@ -1,0 +1,980 @@
+{
+  "seededAt": "2026-07-30T22:14:20.356Z",
+  "account": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
+  "publisher": "AbstrusImad",
+  "contractAddress": "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C",
+  "transactions": [
+    {
+      "functionName": "register_guild",
+      "args": [
+        "Human Systems Guild",
+        "Service design, operational research, facilitation, public-interest delivery, and accountable organizational learning",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0x2ee49d46f71ad5f025ec2c2e091ecb596c53c489b0e0cd536c45a70689a25b6f",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:32:32.434Z",
+      "acceptedAt": "2026-07-30T21:32:41.883Z"
+    },
+    {
+      "functionName": "register_guild",
+      "args": [
+        "Circular Fabrication Guild",
+        "Repair diagnosis, material stewardship, fabrication practice, workshop safety, and documented technical handoff",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0x2cc2bca05ac026b1c1d0f31f246ce2e113769335be5e0bec3674b2bda5775767",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:32:44.765Z",
+      "acceptedAt": "2026-07-30T21:32:51.055Z"
+    },
+    {
+      "functionName": "register_mentor",
+      "args": [
+        "G-002",
+        "Service Evidence Studio",
+        "Field research synthesis, facilitation records, service prototyping, public evidence, and accountable operational handoff",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "0x95803126315A05E642D8E46CE1d77eA2199a2A6E"
+      ],
+      "value": "0",
+      "hash": "0xd853ccba303f1af251663b89fc888cf0ddccfcca1041cc28bfbd4a907798de70",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:34:09.791Z",
+      "acceptedAt": "2026-07-30T21:34:13.163Z"
+    },
+    {
+      "functionName": "register_mentor",
+      "args": [
+        "G-003",
+        "Repair Practice Circle",
+        "Material diagnosis, safe workshop practice, repair documentation, lifecycle decisions, and professional client handoff",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "0x95803126315A05E642D8E46CE1d77eA2199a2A6E"
+      ],
+      "value": "0",
+      "hash": "0x1ef6ecf610817f9ccaf6f10d4e5ce14756e02d05dd5b6de97c9d2228a16da7a6",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:34:48.321Z",
+      "acceptedAt": "2026-07-30T21:34:54.653Z"
+    },
+    {
+      "functionName": "create_standard",
+      "args": [
+        "G-002",
+        "Public service research synthesis",
+        "Demonstrate an ethical research question, traceable field observations, explicit synthesis decisions, participant-safe evidence, and a practical service recommendation with limitations.",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0x44186c7e1e554594b49283167f00623baea07e0a895a2944533d26408a0e9cda",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:34:57.524Z",
+      "acceptedAt": "2026-07-30T21:35:06.933Z"
+    },
+    {
+      "functionName": "create_standard",
+      "args": [
+        "G-002",
+        "Facilitated decision practice",
+        "Demonstrate an inclusive decision process, accessible preparation, traceable contributions, resolved disagreement, and a documented decision that participants can independently inspect.",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0x9b596bd18c001bf0f1db9c5561a213b31eb0d80c8e90ed12af3b078a626f5981",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:35:10.291Z",
+      "acceptedAt": "2026-07-30T21:35:16.618Z"
+    },
+    {
+      "functionName": "create_standard",
+      "args": [
+        "G-003",
+        "Repair diagnosis and safe handoff",
+        "Demonstrate fault isolation, material and safety reasoning, a bounded repair procedure, before-and-after evidence, verification checks, and a client-readable handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0xf0df3248945190712e64b24b40794c742cee2cf3e68f76553a317a97e253cf22",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:35:19.491Z",
+      "acceptedAt": "2026-07-30T21:35:25.792Z"
+    },
+    {
+      "functionName": "create_standard",
+      "args": [
+        "G-001",
+        "Transparent assisted practice",
+        "A portfolio using automated assistance must identify the tools, disclose material generated contributions, show human verification, and preserve enough evidence to reproduce each professional decision.",
+        "https://www.w3.org/TR/vc-data-model-2.0/"
+      ],
+      "value": "0",
+      "hash": "0x6c0905429d62747f76d4abfb75ffeba800d1128a1d8ca1224452930a85419297",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:35:28.685Z",
+      "acceptedAt": "2026-07-30T21:35:41.303Z"
+    },
+    {
+      "functionName": "vote_standard",
+      "args": [
+        "S-0003",
+        true
+      ],
+      "value": "0",
+      "hash": "0x468b0c9777327e1dd3b43143d73cc2a1e4807ec29586e1deb0f894a13fda4604",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:35:45.030Z",
+      "acceptedAt": "2026-07-30T21:35:51.389Z"
+    },
+    {
+      "functionName": "vote_standard",
+      "args": [
+        "S-0004",
+        true
+      ],
+      "value": "0",
+      "hash": "0x21aafe9a8bb1d86a9c8d5d5a4dc1e337d8238f995a8796a6722bf31d867a93e2",
+      "succeeded": null,
+      "submittedAt": "2026-07-30T21:35:53.336Z"
+    },
+    {
+      "functionName": "vote_standard",
+      "args": [
+        "S-0004",
+        true
+      ],
+      "value": "0",
+      "hash": "0xa45cfc335a317bbbb6129cd39acdaef400ad7c9ccf9d4035437f31a0d3b83f1f",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:46:41.259Z",
+      "acceptedAt": "2026-07-30T21:46:50.703Z"
+    },
+    {
+      "functionName": "vote_standard",
+      "args": [
+        "S-0005",
+        true
+      ],
+      "value": "0",
+      "hash": "0x9518f7625d392357432760d07c534af9455c45a4a1faa761edf253d49fa8e898",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:46:53.129Z",
+      "acceptedAt": "2026-07-30T21:47:06.326Z"
+    },
+    {
+      "functionName": "vote_standard",
+      "args": [
+        "S-0006",
+        false
+      ],
+      "value": "0",
+      "hash": "0x42a84ab03b3c7c15603730a25325125255dc3e35cd1a0e6fdbba367578012ab4",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:47:08.878Z",
+      "acceptedAt": "2026-07-30T21:47:18.996Z"
+    },
+    {
+      "functionName": "close_standard",
+      "args": [
+        "S-0003"
+      ],
+      "value": "0",
+      "hash": "0xd3e2eb42583ed94b55aa538e475f4272f4d14dbac404091741b61069cd70492c",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:47:22.514Z",
+      "acceptedAt": "2026-07-30T21:47:28.856Z"
+    },
+    {
+      "functionName": "close_standard",
+      "args": [
+        "S-0004"
+      ],
+      "value": "0",
+      "hash": "0xae71765261b4bfedfc1641cedd79a51a4b65d4f388272151851ec1746f3d4ba9",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:47:31.191Z",
+      "acceptedAt": "2026-07-30T21:47:37.495Z"
+    },
+    {
+      "functionName": "close_standard",
+      "args": [
+        "S-0005"
+      ],
+      "value": "0",
+      "hash": "0x792fc5d9315526476190bf9a8ec6662f4104f5d4381e9d84edfb3897a10a84cd",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:47:39.793Z",
+      "acceptedAt": "2026-07-30T21:47:46.096Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-001",
+        "Evidence Systems Practitioner",
+        "Build a production-grade evidence workflow with explicit acceptance criteria, reproducible public artifacts, accountable review, and a professional operational handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0xdad3e851810c65544eb73be59d95cc91d478ce4e997892f7880c3a5366f43c8c",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:47:50.713Z",
+      "acceptedAt": "2026-07-30T21:48:00.567Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0001",
+        "S-0001",
+        "Evidence-led delivery",
+        "Deliver a bounded public project, document principal decisions and acceptance criteria, publish reproducible evidence, and explain the final professional handoff."
+      ],
+      "value": "0",
+      "hash": "0x348f53c4b5cadb33e934fc7b5f41bed97efdd33bf27ccb44942fe3164b91093e",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:05.222Z",
+      "acceptedAt": "2026-07-30T21:48:11.525Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-001",
+        "Collaborative Review Steward",
+        "Develop repeatable collaborative review practice through traceable feedback, resolved revisions, accountable communication, and contributions that improve shared work.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0xce4e4cdf695b51f54aaeccbcec1b677bd7ec1043765a79b18beb8e1090191e52",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:15.076Z",
+      "acceptedAt": "2026-07-30T21:48:21.402Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0002",
+        "S-0002",
+        "Review and revision practice",
+        "Provide constructive review, trace the resulting revisions, resolve material disagreement, and document an accountable contribution to shared professional work."
+      ],
+      "value": "0",
+      "hash": "0x74e57dd386a9fe16d0f97eba96cdf0a65581652b10e7b62909306d29f90dcf16",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:26.139Z",
+      "acceptedAt": "2026-07-30T21:48:32.473Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-002",
+        "Public Service Researcher",
+        "Turn ethical field observations into a traceable synthesis and a practical public-service recommendation while preserving participant safety and evidentiary limits.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0x62c039218747bbea1061611032cfa2fa95a37ce2bc57b5938fb6eb9f482118d0",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:36.513Z",
+      "acceptedAt": "2026-07-30T21:48:42.920Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0003",
+        "S-0003",
+        "Research synthesis",
+        "Frame an ethical question, collect traceable observations, explain synthesis choices, protect participants, and publish an actionable recommendation with limitations."
+      ],
+      "value": "0",
+      "hash": "0x26993ae610d05e8f7ba580dd1d168fa2b7501c5ab782d1052e9acb9995052e26",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:47.522Z",
+      "acceptedAt": "2026-07-30T21:48:53.854Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-002",
+        "Decision Facilitation Practitioner",
+        "Design and facilitate an inclusive decision process whose preparation, contributions, disagreements, and final commitment remain publicly inspectable.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0x907991a774ec131aaf57e961ef21f9419328d52dcd6ba79c2f4e6ac31ed57b92",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:48:57.429Z",
+      "acceptedAt": "2026-07-30T21:49:03.792Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0004",
+        "S-0004",
+        "Facilitated decision",
+        "Prepare an accessible session, capture contributions, resolve disagreement, document the decision, and preserve evidence that participants can independently inspect."
+      ],
+      "value": "0",
+      "hash": "0xa1a9c6287f63098b21a2acc85c7126b5c6b5189b244e70fda2b3a9a5d2a30228",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:49:08.519Z",
+      "acceptedAt": "2026-07-30T21:49:18.195Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-003",
+        "Circular Repair Technician",
+        "Diagnose and repair a bounded product fault using safe workshop practice, material reasoning, reproducible checks, and a clear client handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0xd578b303605357cb16fc436fc56a2fca93b2bb0cf8122dba41054f1ed6406501",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:49:39.415Z",
+      "acceptedAt": "2026-07-30T21:49:49.483Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0005",
+        "S-0005",
+        "Repair diagnosis",
+        "Isolate a fault, explain material and safety decisions, complete the repair, publish before-and-after verification, and deliver a client-readable handoff."
+      ],
+      "value": "0",
+      "hash": "0x2fc52cf6cde4a76344ce0a15b3e89e79478c86212bbb42dbf122f8f7842b059f",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:49:54.246Z",
+      "acceptedAt": "2026-07-30T21:50:01.035Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-001",
+        "Open Documentation Builder",
+        "Create a public technical guide that another practitioner can reproduce, test, revise, and use without relying on private context or unexplained decisions.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0x5833d4efbcd7915df5008c5a57148e52bbb439826418956b63dbb8d31e40a02b",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:50:04.919Z",
+      "acceptedAt": "2026-07-30T21:50:08.324Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0006",
+        "S-0001",
+        "Reproducible documentation",
+        "Publish a bounded guide with prerequisites, tested steps, decision context, failure recovery, verification evidence, and a professional maintenance handoff."
+      ],
+      "value": "0",
+      "hash": "0x65fde6f314cbff7bdd921b85c94d3bd91097823cf8cae40290ad54aa618f4458",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:50:18.736Z",
+      "acceptedAt": "2026-07-30T21:50:25.156Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-002",
+        "Community Insight Mapper",
+        "Synthesize multiple public-interest observations into an accountable service map that distinguishes evidence, interpretation, uncertainty, and proposed action.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0x39645a6de16d0c8e9ee639433e3ac031b6af6dd2e70ee444fd53664c781d1c7c",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:50:29.092Z",
+      "acceptedAt": "2026-07-30T21:50:38.908Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0007",
+        "S-0003",
+        "Accountable insight map",
+        "Connect traceable observations to explicit themes, preserve uncertainty and dissent, and publish a practical service map with evidence links and limitations."
+      ],
+      "value": "0",
+      "hash": "0xfc5fb6da41229eaa9dc62b2e22380177eb43199a46f74d02099bb6d9b5dbedd6",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:50:43.476Z",
+      "acceptedAt": "2026-07-30T21:50:52.877Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-003",
+        "Material Lifecycle Apprentice",
+        "Assess a product lifecycle decision using material condition, repairability, safe reuse, disposal constraints, and a documented recommendation.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0x0540ab7b1f238d5d4fb7e4bb8cd252e217ad7c3c5f187c8b87ae7d48837908fd",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:50:56.499Z",
+      "acceptedAt": "2026-07-30T21:51:02.830Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0008",
+        "S-0005",
+        "Material lifecycle decision",
+        "Inspect material condition, compare repair and reuse options, identify safety constraints, document verification, and deliver a defensible lifecycle recommendation."
+      ],
+      "value": "0",
+      "hash": "0x9f564625aebbae1d9a068159450f57b57c7d36a14391f0d1a23134dad785c204",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:51:08.830Z",
+      "acceptedAt": "2026-07-30T21:51:15.126Z"
+    },
+    {
+      "functionName": "create_path",
+      "args": [
+        "G-001",
+        "Peer Learning Coordinator",
+        "Coordinate a small peer learning cycle with explicit goals, constructive review, traceable revisions, inclusive participation, and a durable shared outcome.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",
+        "30000000000000000"
+      ],
+      "value": "50000000000000000",
+      "hash": "0xc51524c5780db4e69977f5b855940a6cfab3bde4b426b92528ea5e3507db9db5",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:51:18.557Z",
+      "acceptedAt": "2026-07-30T21:51:28.285Z"
+    },
+    {
+      "functionName": "add_target",
+      "args": [
+        "P-0009",
+        "S-0002",
+        "Peer learning cycle",
+        "Set a shared goal, coordinate review, capture revision decisions, support inclusive contribution, and publish the final shared outcome with evidence."
+      ],
+      "value": "0",
+      "hash": "0x258a728d78366e1aba4836b2968524833b7448aceb23f8c741c1b5f79290a72a",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:51:33.192Z",
+      "acceptedAt": "2026-07-30T21:51:39.988Z"
+    },
+    {
+      "functionName": "sponsor_path",
+      "args": [
+        "P-0001"
+      ],
+      "value": "25000000000000000",
+      "hash": "0x41755950d72e9c819c5b3b19f2206faae7fbcb917df1725add44489c291aed55",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:51:43.840Z",
+      "acceptedAt": "2026-07-30T21:51:53.274Z"
+    },
+    {
+      "functionName": "sponsor_path",
+      "args": [
+        "P-0003"
+      ],
+      "value": "25000000000000000",
+      "hash": "0x409f4dd3639b055894c00331170820942f100457b6b6f023b8b458a15e32c513",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:51:57.079Z",
+      "acceptedAt": "2026-07-30T21:52:03.815Z"
+    },
+    {
+      "functionName": "sponsor_path",
+      "args": [
+        "P-0005"
+      ],
+      "value": "25000000000000000",
+      "hash": "0xed90319aa7e707e6dbe01fe6d924f5e5721795afefa81b2f6bb9f6df6ca4ef16",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:52:09.052Z",
+      "acceptedAt": "2026-07-30T21:52:19.806Z"
+    },
+    {
+      "functionName": "sponsor_path",
+      "args": [
+        "P-0006"
+      ],
+      "value": "25000000000000000",
+      "hash": "0xca38b1dfbc46b163aea78afdc1d271b0f71e64082a2fca07ad2a193377686b23",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:52:26.133Z",
+      "acceptedAt": "2026-07-30T21:52:32.935Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0001",
+        "M-0001",
+        "During supervised practice for Evidence Systems Practitioner, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x73dcf873ee2109fba38c4291d2a83888fc6865004ecf5b73bbc210c347b90bee",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:52:39.683Z",
+      "acceptedAt": "2026-07-30T21:52:45.995Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0001",
+        "The Evidence Systems Practitioner portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x5b065129a333f426cba7190db2b7952678cabc22cdbbb1b01fed4c27d5e72da3",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:52:49.380Z",
+      "acceptedAt": "2026-07-30T21:52:55.750Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0001"
+      ],
+      "value": "0",
+      "hash": "0xec082ea1eddca3d653f8a31864ae4333f9d50a310a68c6d666416703cab0ed88",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:52:59.178Z",
+      "acceptedAt": "2026-07-30T21:54:24.888Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0002",
+        "M-0001",
+        "During supervised practice for Collaborative Review Steward, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x9d27667b796a4ee0db4422688d08d23f40c13873ba0b0246125e1542e1edfd4e",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:54:31.384Z",
+      "acceptedAt": "2026-07-30T21:54:40.786Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0002",
+        "The Collaborative Review Steward portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x331e8bc2fbe08fb9e8e0709d63c89aa1eb4c1aa926fb999e0e895c09ba3d83c0",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:54:44.396Z",
+      "acceptedAt": "2026-07-30T21:54:50.740Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0002"
+      ],
+      "value": "0",
+      "hash": "0x50e30662ef1f216d0e890e7579f2e3e1b3297aed2fb328ac0728934652b6d4a8",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:54:54.264Z",
+      "acceptedAt": "2026-07-30T21:56:01.413Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0003",
+        "M-0002",
+        "During supervised practice for Public Service Researcher, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x9f607b930a349fbd99c4267197c937e9c631ef77266efeba0a284d3fe3dd8851",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:56:07.356Z",
+      "acceptedAt": "2026-07-30T21:56:16.794Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0003",
+        "The Public Service Researcher portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0xfdbe7645d4fd582da866a233f9ae456498476f3384c2c071872bcacc08484cc4",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:56:20.393Z",
+      "acceptedAt": "2026-07-30T21:56:30.080Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0003"
+      ],
+      "value": "0",
+      "hash": "0x27370ab9c095100d4e76a71abcc0fe3f2418ae8e20375ee5f1920ebc5e00890a",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:56:33.570Z",
+      "acceptedAt": "2026-07-30T21:59:15.182Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0004",
+        "M-0002",
+        "During supervised practice for Decision Facilitation Practitioner, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x56cd90c53731395264209f3a4897fd51f952da0084598e259cf632abd9b184b9",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:59:21.040Z",
+      "acceptedAt": "2026-07-30T21:59:27.480Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0004",
+        "The Decision Facilitation Practitioner portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0xa7b8e63ee21aa8ec0d23b2d12f3faa86ad0470c80ff168b5a4cba808c4734885",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:59:31.325Z",
+      "acceptedAt": "2026-07-30T21:59:37.776Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0004"
+      ],
+      "value": "0",
+      "hash": "0x62e5cd85f128164056a58e5ea0d394e752189fb75d7a0bb1a7093b7846da154e",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T21:59:41.527Z",
+      "acceptedAt": "2026-07-30T22:00:42.965Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0005",
+        "M-0003",
+        "During supervised practice for Circular Repair Technician, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0xf912c1e8341b2e8581f0ef1ec827eee53869134986156a3612fd57b017ca53f0",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:00:52.889Z",
+      "acceptedAt": "2026-07-30T22:00:59.604Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0005",
+        "The Circular Repair Technician portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0xf0d0f00e3ea10345a7636035aa0e7bac0828f59bb08649ee0d0fd0fbac92762a",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:01:03.904Z",
+      "acceptedAt": "2026-07-30T22:01:13.836Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0005"
+      ],
+      "value": "0",
+      "hash": "0x3e344cd3114cdea461592c2a27586e44d65b3809660afe75042592359dede3e7",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:01:17.429Z",
+      "acceptedAt": "2026-07-30T22:02:44.750Z"
+    },
+    {
+      "functionName": "attest_practice",
+      "args": [
+        "T-0006",
+        "M-0001",
+        "During supervised practice for Open Documentation Builder, the apprentice repeatedly planned bounded work, explained decisions, incorporated review, published verifiable artifacts, and completed an accountable professional handoff against the guild objective.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0xe787a6b23ce8a91c655fd200985a5ee2b90f634c04b005d76f9039412b8e5986",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:02:52.284Z",
+      "acceptedAt": "2026-07-30T22:03:03.492Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0006",
+        "The Open Documentation Builder portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x6572146cef6ad4ee56cb6922f5e70d07c1ff8e186a3daf9a3c0491a7a02ec0ea",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:03:07.307Z",
+      "acceptedAt": "2026-07-30T22:03:16.896Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0006"
+      ],
+      "value": "0",
+      "hash": "0x6ba20ffb160ed2a3efc84112c4fbbb4ed37e248affa07e4af8c18f8d3f7d392f",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:03:20.458Z",
+      "acceptedAt": "2026-07-30T22:04:55.609Z"
+    },
+    {
+      "functionName": "publish_opportunity",
+      "args": [
+        "G-001",
+        "Evidence workflow residency",
+        "A bounded professional residency delivering one public evidence workflow, tested acceptance criteria, review documentation, and an accountable handoff to an operating team.",
+        "Requires demonstrated evidence-led delivery, reproducible public artifacts, professional communication, accountable review, and a maintained operational handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "30000000000000000"
+      ],
+      "value": "80000000000000000",
+      "hash": "0x122f4cb8fea789449bc79e8d43dbccc602da24605daecd12e138561a60b0edee",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:04:59.431Z",
+      "acceptedAt": "2026-07-30T22:05:07.487Z"
+    },
+    {
+      "functionName": "publish_opportunity",
+      "args": [
+        "G-002",
+        "Public service research fellowship",
+        "A time-bounded fellowship synthesizing public-interest observations into a traceable recommendation with participant-safe evidence, uncertainty, and implementation guidance.",
+        "Requires governed public service research evidence, ethical synthesis, traceable observations, explicit limitations, and a practical recommendation.",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "30000000000000000"
+      ],
+      "value": "80000000000000000",
+      "hash": "0xc84f052c8294b884701418a1a1904b84c65bf062ed68210e2bfc0b9184e5f82c",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:05:11.062Z",
+      "acceptedAt": "2026-07-30T22:05:16.062Z"
+    },
+    {
+      "functionName": "publish_opportunity",
+      "args": [
+        "G-003",
+        "Community repair residency",
+        "A supervised repair residency diagnosing household product faults, documenting safe procedures, verifying outcomes, and producing client-readable lifecycle guidance.",
+        "Requires repair diagnosis evidence, workshop safety reasoning, before-and-after verification, material stewardship, and professional handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "30000000000000000"
+      ],
+      "value": "80000000000000000",
+      "hash": "0x8ac670f0fe0c5a2990d2f3e4da6271c305c0e214899bb4590c4aa397ea4e9e8e",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:05:21.736Z",
+      "acceptedAt": "2026-07-30T22:05:39.328Z"
+    },
+    {
+      "functionName": "publish_opportunity",
+      "args": [
+        "G-001",
+        "Open documentation commission",
+        "A commission to produce a tested public technical guide with reproducible steps, failure recovery, decision context, maintenance responsibilities, and review history.",
+        "Requires evidence-led project delivery, reproducible documentation, constructive review practice, and an accountable maintenance handoff.",
+        "https://www.w3.org/TR/vc-data-model-2.0/",
+        "30000000000000000"
+      ],
+      "value": "80000000000000000",
+      "hash": "0x86c0104eb78899dcb53d6289d748d10c565b2decd0fa941343ea4a2273f6675a",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:05:43.169Z",
+      "acceptedAt": "2026-07-30T22:05:48.703Z"
+    },
+    {
+      "functionName": "apply_opportunity",
+      "args": [
+        "O-0001",
+        "P-0001"
+      ],
+      "value": "0",
+      "hash": "0x2e72e57060351ff5674ab11f63d1ea9273870f447629f1385b9778db3a172877",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:06:00.462Z",
+      "acceptedAt": "2026-07-30T22:06:07.449Z"
+    },
+    {
+      "functionName": "review_match",
+      "args": [
+        "X-0001"
+      ],
+      "value": "0",
+      "hash": "0x58327e8fa54faca0dbbd7a5cd104544682591bb2f0e5bf494fd80797d84e67eb",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:06:11.306Z",
+      "acceptedAt": "2026-07-30T22:06:30.530Z"
+    },
+    {
+      "functionName": "apply_opportunity",
+      "args": [
+        "O-0002",
+        "P-0003"
+      ],
+      "value": "0",
+      "hash": "0xd04445746b80760f63250b4482a462fa21045a7e1d6be886996407d50f6887f6",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:06:37.438Z",
+      "acceptedAt": "2026-07-30T22:06:44.327Z"
+    },
+    {
+      "functionName": "review_match",
+      "args": [
+        "X-0002"
+      ],
+      "value": "0",
+      "hash": "0x3353546898438410f0076203808122c873d847981a9be277a4bd1ad9a40af0d0",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:06:47.978Z",
+      "acceptedAt": "2026-07-30T22:08:08.921Z"
+    },
+    {
+      "functionName": "apply_opportunity",
+      "args": [
+        "O-0003",
+        "P-0005"
+      ],
+      "value": "0",
+      "hash": "0xc95474bc09c2cf08959ab6e3b5693b59100933f9c632aff921b1f6ce856c60f6",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:08:15.887Z",
+      "acceptedAt": "2026-07-30T22:08:22.281Z"
+    },
+    {
+      "functionName": "review_match",
+      "args": [
+        "X-0003"
+      ],
+      "value": "0",
+      "hash": "0x3e9b3e02a31b86cd168fbdb15627ce11c8d47f305cc27b6b63dc9e9cfdd8e7b2",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:08:26.448Z",
+      "acceptedAt": "2026-07-30T22:08:42.201Z"
+    },
+    {
+      "functionName": "accept_match",
+      "args": [
+        "X-0003"
+      ],
+      "value": "0",
+      "hash": "0x0a5ea9f96ed3dce7c63e0d4bf65bb9bd7d2da6ee89ce1ae11137aead1cc42865",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:08:46.404Z",
+      "acceptedAt": "2026-07-30T22:08:59.409Z"
+    },
+    {
+      "functionName": "challenge_credential",
+      "args": [
+        "C-0001",
+        "A newly published revision history changes the attribution of one material artifact and should be weighed against the original finding of independent practice, rubric coverage, and professional authorship.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "5000000000000000",
+      "hash": "0x6f3e08d93b7a798809eb1024ccef74a1abc9a8ee8639f3312bc9ef1a35235aaf",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:09:04.999Z",
+      "acceptedAt": "2026-07-30T22:09:14.650Z"
+    },
+    {
+      "functionName": "resolve_challenge",
+      "args": [
+        "H-0001"
+      ],
+      "value": "0",
+      "hash": "0x8fcde75d041757c5ca727bdda876ab93ff55acf6e4bdc7e0afe1573227c9a079",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:09:18.229Z",
+      "acceptedAt": "2026-07-30T22:09:37.171Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0001"
+      ],
+      "value": "0",
+      "hash": "0xbee7914b1aa61b15b20688e480c2811549061d3a38c9588132106d0589d2f696",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:11:26.667Z",
+      "acceptedAt": "2026-07-30T22:11:48.895Z"
+    },
+    {
+      "functionName": "submit_evidence",
+      "args": [
+        "T-0002",
+        "The Collaborative Review Steward portfolio publishes the bounded outcome, governing objective, source artifacts, review history, verification record, decision rationale, known limitations, and professional handoff so another practitioner can independently inspect the demonstrated competence.",
+        "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures"
+      ],
+      "value": "0",
+      "hash": "0x77cdc5946bf3bd7b57b13f5be6d0c3fb52c823304e58e27ce26e92e39e32932f",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:11:56.867Z",
+      "acceptedAt": "2026-07-30T22:12:06.579Z"
+    },
+    {
+      "functionName": "review_competency",
+      "args": [
+        "T-0002"
+      ],
+      "value": "0",
+      "hash": "0x384a4b3052d8b5ff21848dc7c1630375d200f9ab0e17449f8b78ceffbff09a02",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:12:10.255Z",
+      "acceptedAt": "2026-07-30T22:12:39.535Z"
+    },
+    {
+      "functionName": "review_match",
+      "args": [
+        "X-0002"
+      ],
+      "value": "0",
+      "hash": "0x8c0d382055c36ccb2743b9a944149e460c84c7f8d67214381cd501b2f3dedb37",
+      "succeeded": true,
+      "submittedAt": "2026-07-30T22:13:19.127Z",
+      "acceptedAt": "2026-07-30T22:14:10.191Z"
+    }
+  ],
+  "overview": {
+    "active_credentials": 5,
+    "active_standards": 5,
+    "attestations": 6,
+    "credentials": 6,
+    "evidence": 7,
+    "governance_epoch": 4,
+    "guilds": 3,
+    "matches": 3,
+    "mentors": 3,
+    "open_challenges": 0,
+    "open_opportunities": 3,
+    "opportunities": 4,
+    "paths": 9,
+    "standards": 6,
+    "targets": 9,
+    "total_claimable_created": "198400000000000000",
+    "total_learning_pool": "386600000000000000",
+    "total_opportunity_reserve": "290000000000000000"
+  },
+  "completedAt": "2026-07-30T22:14:20.356Z"
+}
