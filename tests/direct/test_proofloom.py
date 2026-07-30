@@ -12,7 +12,7 @@ def address_hex(address):
 def deploy(direct_vm, direct_deploy, direct_alice):
     direct_vm.sender = direct_alice
     direct_vm.value = 0
-    return direct_deploy(CONTRACT)
+    return direct_deploy(CONTRACT, False)
 
 
 def create_path(contract, direct_vm, reserve=GEN):
@@ -75,6 +75,27 @@ def test_genesis_creates_guild_mentor_and_standards(
     assert overview["mentors"] == 1
     assert overview["standards"] == 2
     assert overview["active_standards"] == 2
+
+
+def test_migrated_snapshot_preserves_verified_studionet_state(
+    direct_vm, direct_deploy, direct_alice
+):
+    direct_vm.sender = direct_alice
+    direct_vm.value = 0
+    contract = direct_deploy(CONTRACT, True)
+    overview = contract.get_overview()
+
+    assert overview["guilds"] == 3
+    assert overview["mentors"] == 3
+    assert overview["standards"] == 6
+    assert overview["paths"] == 9
+    assert overview["targets"] == 9
+    assert overview["credentials"] == 6
+    assert overview["opportunities"] == 4
+    assert overview["matches"] == 3
+    assert overview["migration_source_network"] == "StudioNet"
+    assert overview["migration_source_transactions"] == 72
+    assert overview["total_learning_pool"] == "386600000000000000"
 
 
 def test_guild_and_mentor_registration_permissions(

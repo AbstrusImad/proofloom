@@ -2,7 +2,7 @@
 
 **A guild-governed protocol for turning demonstrated practice into portable, challengeable, opportunity-bearing credentials.**
 
-[Live application](https://abstrusimad.github.io/proofloom/) · [StudioNet contract](https://explorer-studio.genlayer.com/address/0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C) · [Source](https://github.com/AbstrusImad/proofloom)
+[Live application](https://abstrusimad.github.io/proofloom/) · [Bradbury contract](https://explorer-bradbury.genlayer.com/address/0x0a276053a8C68efCBB905df63A4a6903496Fc825) · [Source](https://github.com/AbstrusImad/proofloom)
 
 ![Proofloom's live learning-path archipelago](docs/proofloom-live.png)
 
@@ -10,7 +10,7 @@
 
 A conventional credential records that an institution approved somebody. Proofloom records the more useful story: which community defined competence, what the learner attempted, who observed the practice, which public artifacts support the claim, how independent validators interpreted the whole record, and whether later evidence challenged that conclusion.
 
-The result is not a certificate generator. It is a professional learning market with governance, funded progression, adjudication, portable reputation, and paid opportunity matching. Its reasoning-heavy decisions run through GenLayer intelligent consensus and become inspectable StudioNet state.
+The result is not a certificate generator. It is a professional learning market with governance, funded progression, adjudication, portable reputation, and paid opportunity matching. Its reasoning-heavy decisions run through GenLayer intelligent consensus and become inspectable Bradbury testnet state.
 
 | Thread | What it coordinates |
 | --- | --- |
@@ -51,7 +51,7 @@ That separation prevents one actor from defining competence, supplying all proof
 
 ## Live Sample Book
 
-The deployed contract is already populated through **72 accepted StudioNet transactions**. The frontend reads these records directly; it does not ship project fixtures.
+The Bradbury deployment begins with a deterministic migration snapshot of the state produced by 72 accepted StudioNet transactions. The source address and transaction count are recorded by the contract itself, while every new action continues through Bradbury consensus. The frontend reads contract state directly; it does not ship project fixtures.
 
 | Live state | Count or value |
 | --- | ---: |
@@ -113,7 +113,7 @@ There is deliberately no sidebar, rectangular dashboard shell, tab strip, or car
 
 Every write action uses the same visible lifecycle:
 
-`wallet signature → StudioNet submission → validator consensus → accepted result or readable failure`
+`wallet signature → Bradbury submission → validator consensus → accepted result or readable failure`
 
 The animation stops when the receipt resolves, exposes the transaction hash, refreshes contract state, and never collapses a structured contract error into `[object Object]`.
 
@@ -124,7 +124,7 @@ Requirements:
 - Node.js 22+
 - pnpm 9.15+
 - Python 3.12+ for contract tests
-- A compatible GenLayer wallet for StudioNet writes
+- A compatible GenLayer wallet funded with Bradbury testnet GEN
 
 ```bash
 git clone https://github.com/AbstrusImad/proofloom.git
@@ -152,7 +152,7 @@ pytest tests/direct -q
 cd app
 pnpm build
 
-# Live StudioNet snapshot
+# Live Bradbury snapshot
 cd ..
 pnpm verify:live
 
@@ -163,36 +163,36 @@ node scripts/qa-ui.mjs
 Verified in this repository:
 
 - GenVM lint: 32 public methods recognized
-- Direct contract tests: 11 passed
+- Direct contract tests: 12 passed, including exact migration-state coverage
 - Production Vite build: passed
 - Desktop and mobile: no horizontal overflow
 - Five connected protocol areas: passed
 - Wallet reconnection after reload: passed
 - Browser console and page errors: zero
 
-## StudioNet Deployment
+## Bradbury Deployment
 
 ```text
-Network:     StudioNet
-Chain ID:    61999
-Contract:    0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C
-Deploy tx:   0xeec6d68a5cf453c658d364b58fcb7b6634f61f46d7b60e255946e8da5939c38a
+Network:     Testnet Bradbury
+Chain ID:    4221
+Contract:    0x0a276053a8C68efCBB905df63A4a6903496Fc825
+Deploy tx:   0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47
 Deployer:    0x95803126315A05E642D8E46CE1d77eA2199a2A6E
 ```
 
-Deployment receipts, the 72-transaction seed checkpoint, and a verified live-state snapshot are retained under `deployments/` for reproducibility.
+The Bradbury constructor embeds 57 protocol records generated from the archived StudioNet live-state snapshot. Identifiers, lifecycle states, scores, counts, and economic balances are preserved; verbose historical narratives are normalized into concise on-chain summaries to respect Bradbury's publication limit. The complete source snapshot remains under `deployments/` for auditability.
 
 ## Repository Map
 
 ```text
 contracts/proofloom.py       intelligent protocol
 tests/direct/                deterministic direct-mode coverage
-scripts/deploy-studionet.mjs deployment utility
-scripts/seed-studionet.mjs   idempotent live data seeding
-scripts/verify-studionet.mjs complete live-state reader
+scripts/deploy-bradbury.mjs deployment utility
+scripts/generate-migration-snapshot.mjs deterministic state migration
+scripts/verify-bradbury.mjs complete live-state reader
 scripts/qa-ui.mjs            responsive interaction audit
 app/                         wallet-gated production frontend
-deployments/                 StudioNet address, receipts, and state
+deployments/                 Bradbury address, receipts, and live state
 docs/                        verified interface capture
 ```
 

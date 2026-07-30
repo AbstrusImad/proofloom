@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "deploy": "node scripts/deploy-studionet.mjs",
-    "seed": "node scripts/seed-studionet.mjs",
-    "verify:live": "node scripts/verify-studionet.mjs"
+    "deploy": "node scripts/deploy-bradbury.mjs",
+    "snapshot:migrate": "node scripts/generate-migration-snapshot.mjs",
+    "verify:live": "node scripts/verify-bradbury.mjs"
   },
   "devDependencies": {
     "genlayer-js": "^1.1.8",

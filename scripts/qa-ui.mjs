@@ -21,7 +21,7 @@ async function mockWallet(page, persisted = false) {
           if (method === "wallet_switchEthereumChain" || method === "wallet_addEthereumChain") return null;
           if (method === "wallet_getSnaps") return {};
           if (method === "wallet_requestSnaps") return {};
-          if (method === "eth_chainId") return "0xf22f";
+          if (method === "eth_chainId") return "0x107d";
           throw new Error(`Unsupported QA wallet request: ${method}`);
         },
       };

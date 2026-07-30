@@ -1,0 +1,25 @@
+{
+  "network": "testnet-bradbury",
+  "chainId": 4221,
+  "contractAddress": "0x0a276053a8C68efCBB905df63A4a6903496Fc825",
+  "transactionHash": "0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47",
+  "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
+  "publisher": "AbstrusImad",
+  "explorer": "https://explorer-bradbury.genlayer.com",
+  "status": "ACCEPTED",
+  "executionResult": "FINISHED_WITH_RETURN",
+  "deployedAt": "2026-07-30T23:50:42.000Z",
+  "contractSha256": "b7383df5e2f2ff47425d47932df0da7ca1f88e5f992df3ccb48052babd6089d8",
+  "migration": {
+    "sourceNetwork": "StudioNet",
+    "sourceContract": "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C",
+    "sourceVerifiedAt": "2026-07-30T22:14:40.652Z",
+    "acceptedSourceTransactions": 72,
+    "migratedRecords": 57
+  },
+  "supersedes": {
+    "contractAddress": "0xF5c054c09AA253b35713272313956856D73aaC43",
+    "transactionHash": "0xa0e97fab238aa0e0317da8bc72e49ea5b3b76752f241a6139595a353c21e7d86",
+    "reason": "Replaced by the complete deterministic migration deployment"
+  }
+}

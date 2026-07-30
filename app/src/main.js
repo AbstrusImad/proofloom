@@ -142,7 +142,7 @@ function landing() {
 
       <section id="top" class="chapter opening">
         <div class="hero-copy">
-          <p class="eyebrow">GENLAYER STUDIONET · PORTABLE PROOF OF PRACTICE</p>
+          <p class="eyebrow">GENLAYER BRADBURY · PORTABLE PROOF OF PRACTICE</p>
           <h1>Work becomes a credential when the evidence holds.</h1>
           <p class="lead">Build a learning path, gather mentor attestations, submit public evidence, and let decentralized intelligence judge whether your practice meets a guild standard.</p>
           <button class="stitch-cta" data-action="connect"><i data-lucide="circle-dot"></i> Enter the loom</button>
@@ -203,7 +203,7 @@ function landing() {
       <section class="chapter closing">
         <span class="closing-seal"><i data-lucide="shield-check"></i></span>
         <h2>Bring your practice.<br/>Leave with proof.</h2>
-        <p>Proofloom is live on StudioNet. Connect a wallet to inspect nine funded paths, governed standards, six validator-issued credentials, and active professional opportunities.</p>
+        <p>Proofloom is live on Bradbury. Connect a wallet to inspect funded paths, governed standards, validator-issued credentials, and active professional opportunities.</p>
         <button class="stitch-cta inverse" data-action="connect"><i data-lucide="wallet"></i> Connect to enter</button>
         <a class="contract-link" href="${explorerUrl}/address/${contractAddress}" target="_blank" rel="noreferrer">Contract ${short(contractAddress)} <i data-lucide="external-link"></i></a>
       </section>
@@ -253,7 +253,7 @@ function app() {
         <path d="M160 80 C310 220 430 140 560 270 S780 470 930 300 S1180 100 1380 250"/>
       </svg>
       <div class="brand-seal">
-        <span class="mark-thread"></span><b>Proofloom</b><small>StudioNet</small>
+        <span class="mark-thread"></span><b>Proofloom</b><small>Bradbury</small>
       </div>
       ${walletControl()}
       <button class="sync-knot ${state.loading ? "spinning" : ""}" data-action="refresh" aria-label="Refresh live contract data" title="Refresh live data">
@@ -288,7 +288,7 @@ function app() {
 }
 
 function loadingWeave() {
-  return `<div class="loading-weave"><span></span><span></span><span></span><span></span><p>Reading the live weave from StudioNet</p></div>`;
+  return `<div class="loading-weave"><span></span><span></span><span></span><span></span><p>Reading the live weave from Bradbury</p></div>`;
 }
 
 function renderView() {
@@ -538,9 +538,9 @@ function renderTransaction() {
     <section class="tx-loom ${tx.stage}">
       ${!active ? `<button data-action="close-tx" aria-label="Close result"><i data-lucide="x"></i></button>` : ""}
       <div class="loop-animation" aria-hidden="true"><span></span><span></span><span></span><span></span><i></i></div>
-      <p>${tx.stage === "consensus" ? "GENLAYER INTELLIGENT CONSENSUS" : "STUDIONET TRANSACTION"}</p>
+      <p>${tx.stage === "consensus" ? "GENLAYER INTELLIGENT CONSENSUS" : "BRADBURY TRANSACTION"}</p>
       <h2>${labels[tx.stage]}</h2>
-      <span>${tx.message || (tx.stage === "signature" ? "Awaiting signature before the thread enters StudioNet." : tx.stage === "consensus" ? "Multiple validators are interpreting the action. This can take a moment." : "Live protocol state has been refreshed.")}</span>
+      <span>${tx.message || (tx.stage === "signature" ? "Awaiting signature before the thread enters Bradbury." : tx.stage === "consensus" ? "Multiple validators are interpreting the action. This can take a moment." : "Live protocol state has been refreshed.")}</span>
       ${tx.hash ? `<a href="${explorerUrl}/transactions/${tx.hash}" target="_blank" rel="noreferrer">${short(tx.hash)} <i data-lucide="external-link"></i></a>` : ""}
     </section>
   </div>`;
