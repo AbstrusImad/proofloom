@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { validateAction } from "../app/src/services/actionRules.js";
 
 const account = "0x95803126315A05E642D8E46CE1d77eA2199a2A6E";
@@ -94,5 +95,8 @@ assert.match(
   ),
   /reserve must cover/,
 );
+const frontendSource = readFileSync("app/src/main.js", "utf8");
+assert.match(frontendSource, /explorerUrl}\/tx\/\$\{tx\.hash\}/);
+assert.doesNotMatch(frontendSource, /explorerUrl}\/transactions\//);
 
-console.log("Frontend transaction guards passed (7 cases)");
+console.log("Frontend transaction guards and explorer routes passed (9 cases)");

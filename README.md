@@ -167,7 +167,7 @@ Verified in this repository:
 
 - GenVM lint: 33 public methods recognized
 - Direct contract tests: 12 passed, including exact migration-state coverage
-- Frontend transaction guards: 7 regression cases passed
+- Frontend transaction guards and explorer routes: 9 regression cases passed
 - Production Vite build: passed
 - Desktop and mobile: no horizontal overflow
 - Five connected protocol areas: passed

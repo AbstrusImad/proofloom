@@ -696,7 +696,7 @@ function renderTransaction() {
       <p>${tx.stage === "consensus" ? "GENLAYER INTELLIGENT CONSENSUS" : "BRADBURY TRANSACTION"}</p>
       <h2>${labels[tx.stage]}</h2>
       <span>${tx.message || (tx.stage === "signature" ? "Awaiting signature before the thread enters Bradbury." : tx.stage === "consensus" ? "Multiple validators are interpreting the action. This can take a moment." : "Live protocol state has been refreshed.")}</span>
-      ${tx.hash ? `<a href="${explorerUrl}/transactions/${tx.hash}" target="_blank" rel="noreferrer">${short(tx.hash)} <i data-lucide="external-link"></i></a>` : ""}
+      ${tx.hash ? `<a href="${explorerUrl}/tx/${tx.hash}" target="_blank" rel="noreferrer">${short(tx.hash)} <i data-lucide="external-link"></i></a>` : ""}
     </section>
   </div>`;
 }
