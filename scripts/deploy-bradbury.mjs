@@ -64,7 +64,9 @@ const succeeded =
   receipt.txExecutionResultName === ExecutionResult.FINISHED_WITH_RETURN ||
   leader?.execution_result === "SUCCESS";
 const contractAddress =
-  receipt.data?.contractAddress || receipt.data?.contract_address;
+  receipt.data?.contractAddress ||
+  receipt.data?.contract_address ||
+  receipt.txDataDecoded?.contractAddress;
 if (!succeeded || !contractAddress) {
   throw new Error(
     JSON.stringify(receipt, (_key, value) =>

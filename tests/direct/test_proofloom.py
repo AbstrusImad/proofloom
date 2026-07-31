@@ -1,8 +1,10 @@
+import hashlib
 import json
 
 
 CONTRACT = "contracts/proofloom.py"
 GEN = 10**18
+SOURCE_SNAPSHOT = "deployments/live-state-studionet.json"
 
 
 def address_hex(address):
@@ -13,6 +15,77 @@ def deploy(direct_vm, direct_deploy, direct_alice):
     direct_vm.sender = direct_alice
     direct_vm.value = 0
     return direct_deploy(CONTRACT, False)
+
+
+def migration_payload():
+    with open(SOURCE_SNAPSHOT, encoding="utf-8") as handle:
+        source = json.load(handle)
+    state = source["state"]
+    data = {
+        "source": {
+            "network": "StudioNet",
+            "contract": source["contractAddress"],
+            "accepted_transactions": 72,
+            "verified_at": source["verifiedAt"],
+        },
+        "overview": state["get_overview"],
+        "profile": {
+            "account": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
+            "claimable": "198400000000000000",
+            "credentials": 6,
+            "mentorships": 3,
+            "opportunities": 4,
+            "paths": 9,
+            "reputation": 74,
+        },
+        "guilds": state["get_guilds"],
+        "mentors": state["get_mentors"],
+        "standards": state["get_standards"],
+        "paths": state["get_paths"],
+        "targets": state["get_targets"],
+        "attestations": state["get_attestations"],
+        "evidence": state["get_evidence"],
+        "credentials": state["get_credentials"],
+        "challenges": state["get_challenges"],
+        "opportunities": state["get_opportunities"],
+        "matches": state["get_matches"],
+    }
+    payload = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
+    return data, payload, hashlib.sha256(payload.encode()).hexdigest()
+
+
+def assert_records_equal(actual_records, expected_records):
+    address_fields = {
+        "founder",
+        "account",
+        "author",
+        "apprentice",
+        "holder",
+        "challenger",
+        "publisher",
+        "applicant",
+    }
+    numeric_string_fields = {
+        "pool",
+        "grant_per_credential",
+        "grant_pool",
+        "bond",
+        "reward",
+        "reserve",
+        "reward_created",
+    }
+    assert len(actual_records) == len(expected_records)
+    for actual, expected in zip(actual_records, expected_records):
+        for field, expected_value in expected.items():
+            actual_value = getattr(actual, field)
+            if field in address_fields:
+                assert str(actual_value).lower() == expected_value.lower()
+            elif field in numeric_string_fields:
+                assert str(int(actual_value)) == str(expected_value)
+            elif isinstance(expected_value, int):
+                assert int(actual_value) == expected_value
+            else:
+                assert actual_value == expected_value
 
 
 def create_path(contract, direct_vm, reserve=GEN):
@@ -83,6 +156,10 @@ def test_migrated_snapshot_preserves_verified_studionet_state(
     direct_vm.sender = direct_alice
     direct_vm.value = 0
     contract = direct_deploy(CONTRACT, True)
+    data, payload, snapshot_hash = migration_payload()
+    direct_vm.value = 875000000000000000
+    contract.import_snapshot(payload, snapshot_hash)
+    direct_vm.value = 0
     overview = contract.get_overview()
 
     assert overview["guilds"] == 3
@@ -95,7 +172,28 @@ def test_migrated_snapshot_preserves_verified_studionet_state(
     assert overview["matches"] == 3
     assert overview["migration_source_network"] == "StudioNet"
     assert overview["migration_source_transactions"] == 72
+    assert overview["migration_snapshot_hash"] == snapshot_hash
+    assert overview["migration_backing"] == "875000000000000000"
+    assert overview["migration_complete"] is True
     assert overview["total_learning_pool"] == "386600000000000000"
+    profile = contract.get_profile(data["profile"]["account"])
+    assert profile["claimable"] == "198400000000000000"
+    assert profile["reputation"] == 74
+
+    for getter, key in (
+        (contract.get_guilds, "guilds"),
+        (contract.get_mentors, "mentors"),
+        (contract.get_standards, "standards"),
+        (contract.get_paths, "paths"),
+        (contract.get_targets, "targets"),
+        (contract.get_attestations, "attestations"),
+        (contract.get_evidence, "evidence"),
+        (contract.get_credentials, "credentials"),
+        (contract.get_challenges, "challenges"),
+        (contract.get_opportunities, "opportunities"),
+        (contract.get_matches, "matches"),
+    ):
+        assert_records_equal(getter(), data[key])
 
 
 def test_guild_and_mentor_registration_permissions(

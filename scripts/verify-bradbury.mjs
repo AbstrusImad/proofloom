@@ -3,6 +3,12 @@ import { createClient } from "genlayer-js";
 import { testnetBradbury } from "genlayer-js/chains";
 
 const deployment = JSON.parse(readFileSync("deployments/bradbury.json"));
+const migration = JSON.parse(
+  readFileSync("deployments/migration-payload.json"),
+);
+const manifest = JSON.parse(
+  readFileSync("deployments/migration-manifest.json"),
+);
 const client = createClient({ chain: testnetBradbury });
 const methods = [
   "get_overview",
@@ -42,26 +48,13 @@ for (const functionName of methods) {
 }
 
 const expectedOverview = {
-  guilds: 3,
-  mentors: 3,
-  standards: 6,
-  active_standards: 5,
-  paths: 9,
-  targets: 9,
-  attestations: 6,
-  evidence: 7,
-  credentials: 6,
-  active_credentials: 5,
-  opportunities: 4,
-  open_opportunities: 3,
-  matches: 3,
-  governance_epoch: 4,
-  total_learning_pool: "386600000000000000",
-  total_opportunity_reserve: "290000000000000000",
-  total_claimable_created: "198400000000000000",
-  migration_source_network: "StudioNet",
-  migration_source_contract: "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C",
-  migration_source_transactions: 72,
+  ...migration.overview,
+  migration_source_network: migration.source.network,
+  migration_source_contract: migration.source.contract,
+  migration_source_transactions: migration.source.accepted_transactions,
+  migration_snapshot_hash: manifest.snapshotHash,
+  migration_backing: manifest.backingWei,
+  migration_complete: true,
 };
 for (const [field, expected] of Object.entries(expectedOverview)) {
   const actual = state.get_overview[field];
@@ -72,11 +65,89 @@ for (const [field, expected] of Object.entries(expectedOverview)) {
   }
 }
 
+const [profile, balance] = await Promise.all([
+  client.readContract({
+    address: deployment.contractAddress,
+    functionName: "get_profile",
+    args: [migration.profile.account],
+    jsonSafeReturn: true,
+  }),
+  client.getBalance({ address: deployment.contractAddress }),
+]);
+
+const addressFields = new Set([
+  "founder",
+  "account",
+  "author",
+  "apprentice",
+  "holder",
+  "challenger",
+  "publisher",
+  "applicant",
+]);
+const numericStringFields = new Set([
+  "pool",
+  "grant_per_credential",
+  "grant_pool",
+  "bond",
+  "reward",
+  "reserve",
+  "reward_created",
+]);
+function normalize(value, field = "") {
+  if (Array.isArray(value)) return value.map((item) => normalize(item));
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, normalize(item, key)]),
+    );
+  }
+  if (addressFields.has(field) && typeof value === "string") {
+    return value.toLowerCase();
+  }
+  if (numericStringFields.has(field)) return String(value);
+  return value;
+}
+
+const collectionPairs = [
+  ["get_guilds", "guilds"],
+  ["get_mentors", "mentors"],
+  ["get_standards", "standards"],
+  ["get_paths", "paths"],
+  ["get_targets", "targets"],
+  ["get_attestations", "attestations"],
+  ["get_evidence", "evidence"],
+  ["get_credentials", "credentials"],
+  ["get_challenges", "challenges"],
+  ["get_opportunities", "opportunities"],
+  ["get_matches", "matches"],
+];
+for (const [method, key] of collectionPairs) {
+  const actual = JSON.stringify(normalize(state[method]));
+  const expected = JSON.stringify(normalize(migration[key]));
+  if (actual !== expected) {
+    throw new Error(`Bradbury state differs from StudioNet for ${key}`);
+  }
+}
+if (
+  JSON.stringify(normalize(profile)) !==
+  JSON.stringify(normalize(migration.profile))
+) {
+  throw new Error("Bradbury profile differs from the StudioNet profile");
+}
+if (balance.toString() !== manifest.backingWei) {
+  throw new Error(
+    `Bradbury backing mismatch: expected ${manifest.backingWei}, received ${balance}`,
+  );
+}
+
 const output = {
   verifiedAt: new Date().toISOString(),
   contractAddress: deployment.contractAddress,
   network: "testnet-bradbury",
   migrationVerified: true,
+  snapshotHash: manifest.snapshotHash,
+  contractBalance: balance.toString(),
+  profile,
   state,
 };
 writeFileSync(

@@ -1,17 +1,30 @@
 {
   "network": "testnet-bradbury",
   "chainId": 4221,
-  "contractAddress": "0xF5c054c09AA253b35713272313956856D73aaC43",
-  "transactionHash": "0xa0e97fab238aa0e0317da8bc72e49ea5b3b76752f241a6139595a353c21e7d86",
-  "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
-  "status": "FINALIZED",
-  "supersededReason": "Initial Bradbury deployment did not include the complete migrated protocol state.",
-  "acceptedTransactions": [
+  "activeContract": "0x7D4EA827ec48E0316886b371678E3BBfC02eed83",
+  "deployments": [
     {
-      "functionName": "register_guild",
-      "transactionHash": "0x04544fea005cfaf71b586dafb9ad3a04bf11b14a5c611e3d0821c57a08c8f64e",
+      "contractAddress": "0xF5c054c09AA253b35713272313956856D73aaC43",
+      "transactionHash": "0xa0e97fab238aa0e0317da8bc72e49ea5b3b76752f241a6139595a353c21e7d86",
+      "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
+      "status": "FINALIZED",
+      "supersededReason": "Initial Bradbury deployment did not include the complete migrated protocol state.",
+      "acceptedTransactions": [
+        {
+          "functionName": "register_guild",
+          "transactionHash": "0x04544fea005cfaf71b586dafb9ad3a04bf11b14a5c611e3d0821c57a08c8f64e",
+          "executionResult": "FINISHED_WITH_RETURN",
+          "statusAtArchive": "ACCEPTED"
+        }
+      ]
+    },
+    {
+      "contractAddress": "0x0a276053a8C68efCBB905df63A4a6903496Fc825",
+      "transactionHash": "0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47",
+      "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
       "executionResult": "FINISHED_WITH_RETURN",
-      "statusAtArchive": "ACCEPTED"
+      "status": "ACCEPTED",
+      "supersededReason": "Its embedded snapshot normalized long-form narratives and source URLs instead of preserving every source field exactly."
     }
   ]
 }

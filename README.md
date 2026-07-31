@@ -2,7 +2,7 @@
 
 **A guild-governed protocol for turning demonstrated practice into portable, challengeable, opportunity-bearing credentials.**
 
-[Live application](https://abstrusimad.github.io/proofloom/) · [Bradbury contract](https://explorer-bradbury.genlayer.com/address/0x0a276053a8C68efCBB905df63A4a6903496Fc825) · [Source](https://github.com/AbstrusImad/proofloom)
+[Live application](https://abstrusimad.github.io/proofloom/) · [Bradbury contract](https://explorer-bradbury.genlayer.com/address/0x7D4EA827ec48E0316886b371678E3BBfC02eed83) · [Source](https://github.com/AbstrusImad/proofloom)
 
 ![Proofloom's live learning-path archipelago](docs/proofloom-live.png)
 
@@ -51,7 +51,7 @@ That separation prevents one actor from defining competence, supplying all proof
 
 ## Live Sample Book
 
-The Bradbury deployment begins with a deterministic migration snapshot of the state produced by 72 accepted StudioNet transactions. The source address and transaction count are recorded by the contract itself, while every new action continues through Bradbury consensus. The frontend reads contract state directly; it does not ship project fixtures.
+The Bradbury deployment was initialized through a one-use, hash-verified import of the exact state produced by 72 accepted StudioNet transactions. The source address, transaction count, snapshot hash, and 0.875 GEN backing are recorded on-chain; the import path is permanently closed afterward. Every new action continues through Bradbury consensus, and the frontend reads contract state directly rather than shipping project fixtures.
 
 | Live state | Count or value |
 | --- | ---: |
@@ -81,7 +81,7 @@ Each operation defines its own equivalence rule. Validators must agree on the ca
 
 ## Contract Pattern
 
-The intelligent contract contains 32 public methods: 13 reads and 19 state-changing operations.
+The intelligent contract contains 33 public methods: 13 reads and 20 state-changing operations, including a one-use migration entrypoint disabled for ordinary deployments.
 
 **Formation and governance**
 
@@ -162,7 +162,7 @@ node scripts/qa-ui.mjs
 
 Verified in this repository:
 
-- GenVM lint: 32 public methods recognized
+- GenVM lint: 33 public methods recognized
 - Direct contract tests: 12 passed, including exact migration-state coverage
 - Production Vite build: passed
 - Desktop and mobile: no horizontal overflow
@@ -175,12 +175,13 @@ Verified in this repository:
 ```text
 Network:     Testnet Bradbury
 Chain ID:    4221
-Contract:    0x0a276053a8C68efCBB905df63A4a6903496Fc825
-Deploy tx:   0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47
+Contract:    0x7D4EA827ec48E0316886b371678E3BBfC02eed83
+Deploy tx:   0x8663e6290da67419ef8d3ec93e0cacc2fdf0a6efca365549c1a15bb66470949e
+Import tx:   0xc726ecbac588eed962bd7ed5c33304584fb556d27f3cf20cad5e2fc887a7fe3e
 Deployer:    0x95803126315A05E642D8E46CE1d77eA2199a2A6E
 ```
 
-The Bradbury constructor embeds 57 protocol records generated from the archived StudioNet live-state snapshot. Identifiers, lifecycle states, scores, counts, and economic balances are preserved; verbose historical narratives are normalized into concise on-chain summaries to respect Bradbury's publication limit. The complete source snapshot remains under `deployments/` for auditability.
+The migration imports all 57 records byte-for-byte from a canonical 34,839-byte payload. Its SHA-256 hash (`612dc4b0...fde96`) is stored on-chain, and the contract rejects mismatched provenance, counts, payload hashes, or backing. The import transferred 0.875 GEN: 0.3866 GEN in learning pools, 0.29 GEN in opportunity reserves, and 0.1984 GEN claimable. The live verifier compares every field, URL, narrative, profile value, and contract balance against the archived StudioNet source.
 
 ## Repository Map
 
@@ -188,7 +189,8 @@ The Bradbury constructor embeds 57 protocol records generated from the archived 
 contracts/proofloom.py       intelligent protocol
 tests/direct/                deterministic direct-mode coverage
 scripts/deploy-bradbury.mjs deployment utility
-scripts/generate-migration-snapshot.mjs deterministic state migration
+scripts/build-migration-payload.mjs canonical payload and manifest
+scripts/import-bradbury-snapshot.mjs one-use backed state import
 scripts/verify-bradbury.mjs complete live-state reader
 scripts/qa-ui.mjs            responsive interaction audit
 app/                         wallet-gated production frontend

@@ -1,25 +1,32 @@
 {
   "network": "testnet-bradbury",
   "chainId": 4221,
-  "contractAddress": "0x0a276053a8C68efCBB905df63A4a6903496Fc825",
-  "transactionHash": "0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47",
+  "contractAddress": "0x7D4EA827ec48E0316886b371678E3BBfC02eed83",
+  "transactionHash": "0x8663e6290da67419ef8d3ec93e0cacc2fdf0a6efca365549c1a15bb66470949e",
   "deployer": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
   "publisher": "AbstrusImad",
   "explorer": "https://explorer-bradbury.genlayer.com",
   "status": "ACCEPTED",
   "executionResult": "FINISHED_WITH_RETURN",
-  "deployedAt": "2026-07-30T23:50:42.000Z",
-  "contractSha256": "b7383df5e2f2ff47425d47932df0da7ca1f88e5f992df3ccb48052babd6089d8",
+  "deployedAt": "2026-07-31T00:26:58.000Z",
+  "contractSha256": "5a63837bc3b9b6ad1ca74261f20871effcd3f92120e34ff76d6db9aab1783f03",
   "migration": {
     "sourceNetwork": "StudioNet",
     "sourceContract": "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C",
     "sourceVerifiedAt": "2026-07-30T22:14:40.652Z",
     "acceptedSourceTransactions": 72,
-    "migratedRecords": 57
+    "migratedRecords": 57,
+    "transactionHash": "0xc726ecbac588eed962bd7ed5c33304584fb556d27f3cf20cad5e2fc887a7fe3e",
+    "snapshotHash": "612dc4b083c39a8a783c6820a0a412bf0fc702c66aaa4efca642e0db4adfde96",
+    "backingWei": "875000000000000000",
+    "backingGen": "0.875",
+    "status": "ACCEPTED",
+    "executionResult": "FINISHED_WITH_RETURN",
+    "importedAt": "2026-07-31T00:28:24.761Z"
   },
   "supersedes": {
-    "contractAddress": "0xF5c054c09AA253b35713272313956856D73aaC43",
-    "transactionHash": "0xa0e97fab238aa0e0317da8bc72e49ea5b3b76752f241a6139595a353c21e7d86",
-    "reason": "Replaced by the complete deterministic migration deployment"
+    "contractAddress": "0x0a276053a8C68efCBB905df63A4a6903496Fc825",
+    "transactionHash": "0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47",
+    "reason": "Replaced because its embedded snapshot normalized long-form data"
   }
 }

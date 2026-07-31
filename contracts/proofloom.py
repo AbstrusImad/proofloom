@@ -1,5 +1,7 @@
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 from dataclasses import dataclass
+import hashlib
+import json
 from genlayer import *
 
 EXPECTED = "[EXPECTED]"
@@ -218,8 +220,12 @@ class Proofloom(gl.Contract):
     migration_source_network: str
     migration_source_contract: str
     migration_source_transactions: u32
+    migration_snapshot_hash: str
+    migration_backing: u256
+    migration_enabled: bool
+    migration_complete: bool
 
-    def __init__(self, migrate_snapshot: bool):
+    def __init__(self, migration_mode: bool):
         self.owner = gl.message.sender_address
         self.guild_ids = []
         self.mentor_ids = []
@@ -239,9 +245,12 @@ class Proofloom(gl.Contract):
         self.migration_source_network = ""
         self.migration_source_contract = ""
         self.migration_source_transactions = u32(0)
+        self.migration_snapshot_hash = ""
+        self.migration_backing = u256(0)
+        self.migration_enabled = migration_mode
+        self.migration_complete = False
 
-        if migrate_snapshot:
-            self._load_migrated_snapshot()
+        if migration_mode:
             return
 
         guild_id = self._register_guild(
@@ -274,74 +283,276 @@ class Proofloom(gl.Contract):
             "PASSED",
         )
 
-    # MIGRATION_SNAPSHOT_START
-    def _load_migrated_snapshot(self):
-        self.migration_source_network = "StudioNet"
-        self.migration_source_contract = "0xcd0eA9F2e9058998d0e7D6C81c520CDEd522bF1C"
-        self.migration_source_transactions = u32(72)
+    def _migration_expect(self, condition: bool, message: str):
+        if not condition:
+            raise gl.vm.UserError(f"{EXPECTED} Migration {message}")
 
-        self.guild_ids.append("G-001"); self.guilds["G-001"] = Guild("G-001", self.owner, "Open Craft Guild", "Portable evidence standards for practical digital and...", "https://www.w3.org/", u32(72), u32(1), u32(4), u32(3), u256(0), "ACTIVE")
-        self.guild_ids.append("G-002"); self.guilds["G-002"] = Guild("G-002", self.owner, "Human Systems Guild", "Service design, operational research, facilitation, p...", "https://www.w3.org/", u32(72), u32(1), u32(3), u32(2), u256(0), "ACTIVE")
-        self.guild_ids.append("G-003"); self.guilds["G-003"] = Guild("G-003", self.owner, "Circular Fabrication Guild", "Repair diagnosis, material stewardship, fabrication p...", "https://www.w3.org/", u32(72), u32(1), u32(2), u32(1), u256(0), "ACTIVE")
-        self.mentor_ids.append("M-0001"); self.mentors["M-0001"] = Mentor("M-0001", self.owner, "G-001", "Foundry Mentor Circle", "Project practice, review habits, evidence quality, an...", "https://www.w3.org/", u32(78), u32(3), u32(4), "ACTIVE")
-        self.mentor_ids.append("M-0002"); self.mentors["M-0002"] = Mentor("M-0002", self.owner, "G-002", "Service Evidence Studio", "Field research synthesis, facilitation records, servi...", "https://www.w3.org/", u32(72), u32(2), u32(1), "ACTIVE")
-        self.mentor_ids.append("M-0003"); self.mentors["M-0003"] = Mentor("M-0003", self.owner, "G-003", "Repair Practice Circle", "Material diagnosis, safe workshop practice, repair do...", "https://www.w3.org/", u32(72), u32(1), u32(1), "ACTIVE")
-        self.standard_ids.append("S-0001"); self.standards["S-0001"] = CompetencyStandard("S-0001", "G-001", self.owner, "Evidence-led project delivery", "Demonstrate a bounded project outcome, explain key de...", "https://www.w3.org/", "PASSED", u32(0), u32(0), u32(1))
-        self.standard_ids.append("S-0002"); self.standards["S-0002"] = CompetencyStandard("S-0002", "G-001", self.owner, "Collaborative review practice", "Demonstrate constructive review, traceable revisions,...", "https://www.w3.org/", "PASSED", u32(0), u32(0), u32(1))
-        self.standard_ids.append("S-0003"); self.standards["S-0003"] = CompetencyStandard("S-0003", "G-002", self.owner, "Public service research synthesis", "Demonstrate an ethical research question, traceable f...", "https://www.w3.org/", "PASSED", u32(1), u32(0), u32(1))
-        self.standard_ids.append("S-0004"); self.standards["S-0004"] = CompetencyStandard("S-0004", "G-002", self.owner, "Facilitated decision practice", "Demonstrate an inclusive decision process, accessible...", "https://www.w3.org/", "PASSED", u32(1), u32(0), u32(1))
-        self.standard_ids.append("S-0005"); self.standards["S-0005"] = CompetencyStandard("S-0005", "G-003", self.owner, "Repair diagnosis and safe handoff", "Demonstrate fault isolation, material and safety reas...", "https://www.w3.org/", "PASSED", u32(1), u32(0), u32(1))
-        self.standard_ids.append("S-0006"); self.standards["S-0006"] = CompetencyStandard("S-0006", "G-001", self.owner, "Transparent assisted practice", "A portfolio using automated assistance must identify...", "https://www.w3.org/", "OPEN", u32(0), u32(1), u32(1))
-        self.path_ids.append("P-0001"); self.paths["P-0001"] = LearningPath("P-0001", self.owner, "G-001", "Evidence Systems Practitioner", "Build a production-grade evidence workflow with expli...", "https://www.w3.org/", "OPEN", u32(1), u32(1), u32(1), u32(0), u256(30000000000000000), u256(45000000000000000), u32(95))
-        self.path_ids.append("P-0002"); self.paths["P-0002"] = LearningPath("P-0002", self.owner, "G-001", "Collaborative Review Steward", "Develop repeatable collaborative review practice thro...", "https://www.w3.org/", "OPEN", u32(1), u32(2), u32(2), u32(1), u256(30000000000000000), u256(0), u32(92))
-        self.path_ids.append("P-0003"); self.paths["P-0003"] = LearningPath("P-0003", self.owner, "G-002", "Public Service Researcher", "Turn ethical field observations into a traceable synt...", "https://www.w3.org/", "OPEN", u32(1), u32(0), u32(1), u32(0), u256(30000000000000000), u256(75000000000000000), u32(0))
-        self.path_ids.append("P-0004"); self.paths["P-0004"] = LearningPath("P-0004", self.owner, "G-002", "Decision Facilitation Practitioner", "Design and facilitate an inclusive decision process w...", "https://www.w3.org/", "OPEN", u32(1), u32(1), u32(1), u32(0), u256(30000000000000000), u256(20000000000000000), u32(95))
-        self.path_ids.append("P-0005"); self.paths["P-0005"] = LearningPath("P-0005", self.owner, "G-003", "Circular Repair Technician", "Diagnose and repair a bounded product fault using saf...", "https://www.w3.org/", "OPEN", u32(1), u32(1), u32(1), u32(0), u256(30000000000000000), u256(45000000000000000), u32(92))
-        self.path_ids.append("P-0006"); self.paths["P-0006"] = LearningPath("P-0006", self.owner, "G-001", "Open Documentation Builder", "Create a public technical guide that another practiti...", "https://www.w3.org/", "OPEN", u32(1), u32(1), u32(1), u32(0), u256(30000000000000000), u256(51600000000000000), u32(78))
-        self.path_ids.append("P-0007"); self.paths["P-0007"] = LearningPath("P-0007", self.owner, "G-002", "Community Insight Mapper", "Synthesize multiple public-interest observations into...", "https://www.w3.org/", "OPEN", u32(1), u32(0), u32(0), u32(0), u256(30000000000000000), u256(50000000000000000), u32(0))
-        self.path_ids.append("P-0008"); self.paths["P-0008"] = LearningPath("P-0008", self.owner, "G-003", "Material Lifecycle Apprentice", "Assess a product lifecycle decision using material co...", "https://www.w3.org/", "OPEN", u32(1), u32(0), u32(0), u32(0), u256(30000000000000000), u256(50000000000000000), u32(0))
-        self.path_ids.append("P-0009"); self.paths["P-0009"] = LearningPath("P-0009", self.owner, "G-001", "Peer Learning Coordinator", "Coordinate a small peer learning cycle with explicit...", "https://www.w3.org/", "OPEN", u32(1), u32(0), u32(0), u32(0), u256(30000000000000000), u256(50000000000000000), u32(0))
-        self.target_ids.append("T-0001"); self.targets["T-0001"] = SkillTarget("T-0001", "P-0001", "S-0001", "Evidence-led delivery", "Deliver a bounded public project, document principal...", "CREDENTIALLED", "E-0001", "C-0005", u32(95), u32(90), "AWARD", "The evidence provided aligns perfectly with the Guild...")
-        self.target_ids.append("T-0002"); self.targets["T-0002"] = SkillTarget("T-0002", "P-0002", "S-0002", "Review and revision practice", "Provide constructive review, trace the resulting revi...", "CREDENTIALLED", "E-0007", "C-0006", u32(92), u32(78), "AWARD", "Portfolio demonstrates bounded outcome documentation,...")
-        self.target_ids.append("T-0003"); self.targets["T-0003"] = SkillTarget("T-0003", "P-0003", "S-0003", "Research synthesis", "Frame an ethical question, collect traceable observat...", "CONDITIONAL", "E-0003", "", u32(74), u32(71), "CONDITIONAL", "Evidence is relevant and includes portfolio, verifica...")
-        self.target_ids.append("T-0004"); self.targets["T-0004"] = SkillTarget("T-0004", "P-0004", "S-0004", "Facilitated decision", "Prepare an accessible session, capture contributions,...", "CREDENTIALLED", "E-0004", "C-0002", u32(95), u32(90), "AWARD", "The apprentice has demonstrated full alignment with t...")
-        self.target_ids.append("T-0005"); self.targets["T-0005"] = SkillTarget("T-0005", "P-0005", "S-0005", "Repair diagnosis", "Isolate a fault, explain material and safety decision...", "CREDENTIALLED", "E-0005", "C-0003", u32(92), u32(95), "AWARD", "The evidence demonstrates a complete mastery of the c...")
-        self.target_ids.append("T-0006"); self.targets["T-0006"] = SkillTarget("T-0006", "P-0006", "S-0001", "Reproducible documentation", "Publish a bounded guide with prerequisites, tested st...", "CREDENTIALLED", "E-0006", "C-0004", u32(78), u32(72), "AWARD", "Evidence package covers all rubric dimensions: bounde...")
-        self.target_ids.append("T-0007"); self.targets["T-0007"] = SkillTarget("T-0007", "P-0007", "S-0003", "Accountable insight map", "Connect traceable observations to explicit themes, pr...", "PRACTICING", "", "", u32(0), u32(0), "", "")
-        self.target_ids.append("T-0008"); self.targets["T-0008"] = SkillTarget("T-0008", "P-0008", "S-0005", "Material lifecycle decision", "Inspect material condition, compare repair and reuse...", "PRACTICING", "", "", u32(0), u32(0), "", "")
-        self.target_ids.append("T-0009"); self.targets["T-0009"] = SkillTarget("T-0009", "P-0009", "S-0002", "Peer learning cycle", "Set a shared goal, coordinate review, capture revisio...", "PRACTICING", "", "", u32(0), u32(0), "", "")
-        self.attestation_ids.append("A-0001"); self.attestations["A-0001"] = PracticeAttestation("A-0001", "P-0001", "T-0001", "M-0001", "During supervised practice for Evidence Systems Pract...", "https://www.w3.org/", "ACTIVE")
-        self.attestation_ids.append("A-0002"); self.attestations["A-0002"] = PracticeAttestation("A-0002", "P-0002", "T-0002", "M-0001", "During supervised practice for Collaborative Review S...", "https://www.w3.org/", "ACTIVE")
-        self.attestation_ids.append("A-0003"); self.attestations["A-0003"] = PracticeAttestation("A-0003", "P-0003", "T-0003", "M-0002", "During supervised practice for Public Service Researc...", "https://www.w3.org/", "ACTIVE")
-        self.attestation_ids.append("A-0004"); self.attestations["A-0004"] = PracticeAttestation("A-0004", "P-0004", "T-0004", "M-0002", "During supervised practice for Decision Facilitation...", "https://www.w3.org/", "ACTIVE")
-        self.attestation_ids.append("A-0005"); self.attestations["A-0005"] = PracticeAttestation("A-0005", "P-0005", "T-0005", "M-0003", "During supervised practice for Circular Repair Techni...", "https://www.w3.org/", "ACTIVE")
-        self.attestation_ids.append("A-0006"); self.attestations["A-0006"] = PracticeAttestation("A-0006", "P-0006", "T-0006", "M-0001", "During supervised practice for Open Documentation Bui...", "https://www.w3.org/", "ACTIVE")
-        self.evidence_ids.append("E-0001"); self.evidence["E-0001"] = PortfolioEvidence("E-0001", "P-0001", "T-0001", self.owner, "The Evidence Systems Practitioner portfolio publishes...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0002"); self.evidence["E-0002"] = PortfolioEvidence("E-0002", "P-0002", "T-0002", self.owner, "The Collaborative Review Steward portfolio publishes...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0003"); self.evidence["E-0003"] = PortfolioEvidence("E-0003", "P-0003", "T-0003", self.owner, "The Public Service Researcher portfolio publishes the...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0004"); self.evidence["E-0004"] = PortfolioEvidence("E-0004", "P-0004", "T-0004", self.owner, "The Decision Facilitation Practitioner portfolio publ...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0005"); self.evidence["E-0005"] = PortfolioEvidence("E-0005", "P-0005", "T-0005", self.owner, "The Circular Repair Technician portfolio publishes th...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0006"); self.evidence["E-0006"] = PortfolioEvidence("E-0006", "P-0006", "T-0006", self.owner, "The Open Documentation Builder portfolio publishes th...", "https://www.w3.org/", "SUBMITTED")
-        self.evidence_ids.append("E-0007"); self.evidence["E-0007"] = PortfolioEvidence("E-0007", "P-0002", "T-0002", self.owner, "The Collaborative Review Steward portfolio publishes...", "https://www.w3.org/", "SUBMITTED")
-        self.credential_ids.append("C-0001"); self.credentials["C-0001"] = Credential("C-0001", "P-0002", "T-0002", "S-0002", self.owner, "Review and revision practice", u32(92), u32(95), "REASSESSMENT", "Evidence demonstrates strong relevance, authenticity,...", u32(1))
-        self.credential_ids.append("C-0002"); self.credentials["C-0002"] = Credential("C-0002", "P-0004", "T-0004", "S-0004", self.owner, "Facilitated decision", u32(95), u32(90), "ACTIVE", "The apprentice has demonstrated full alignment with t...", u32(0))
-        self.credential_ids.append("C-0003"); self.credentials["C-0003"] = Credential("C-0003", "P-0005", "T-0005", "S-0005", self.owner, "Repair diagnosis", u32(92), u32(95), "ACTIVE", "The evidence demonstrates a complete mastery of the c...", u32(0))
-        self.credential_ids.append("C-0004"); self.credentials["C-0004"] = Credential("C-0004", "P-0006", "T-0006", "S-0001", self.owner, "Reproducible documentation", u32(78), u32(72), "ACTIVE", "Evidence package covers all rubric dimensions: bounde...", u32(0))
-        self.credential_ids.append("C-0005"); self.credentials["C-0005"] = Credential("C-0005", "P-0001", "T-0001", "S-0001", self.owner, "Evidence-led delivery", u32(95), u32(90), "ACTIVE", "The evidence provided aligns perfectly with the Guild...", u32(0))
-        self.credential_ids.append("C-0006"); self.credentials["C-0006"] = Credential("C-0006", "P-0002", "T-0002", "S-0002", self.owner, "Review and revision practice", u32(92), u32(78), "ACTIVE", "Portfolio demonstrates bounded outcome documentation,...", u32(0))
-        self.challenge_ids.append("H-0001"); self.challenges["H-0001"] = CredentialChallenge("H-0001", "C-0001", self.owner, "A newly published revision history changes the attrib...", "https://www.w3.org/", u256(5000000000000000), "RESOLVED", "REASSESS", "New revision history alters artifact attribution, dir...")
-        self.opportunity_ids.append("O-0001"); self.opportunities["O-0001"] = Opportunity("O-0001", self.owner, "G-001", "Evidence workflow residency", "A bounded professional residency delivering one publi...", "Requires demonstrated evidence-led delivery, reproduc...", "https://www.w3.org/", u256(30000000000000000), u256(80000000000000000), "OPEN", u32(1), "")
-        self.opportunity_ids.append("O-0002"); self.opportunities["O-0002"] = Opportunity("O-0002", self.owner, "G-002", "Public service research fellowship", "A time-bounded fellowship synthesizing public-interes...", "Requires governed public service research evidence, e...", "https://www.w3.org/", u256(30000000000000000), u256(80000000000000000), "OPEN", u32(1), "")
-        self.opportunity_ids.append("O-0003"); self.opportunities["O-0003"] = Opportunity("O-0003", self.owner, "G-003", "Community repair residency", "A supervised repair residency diagnosing household pr...", "Requires repair diagnosis evidence, workshop safety r...", "https://www.w3.org/", u256(30000000000000000), u256(50000000000000000), "FILLED", u32(1), "X-0003")
-        self.opportunity_ids.append("O-0004"); self.opportunities["O-0004"] = Opportunity("O-0004", self.owner, "G-001", "Open documentation commission", "A commission to produce a tested public technical gui...", "Requires evidence-led project delivery, reproducible...", "https://www.w3.org/", u256(30000000000000000), u256(80000000000000000), "OPEN", u32(0), "")
-        self.match_ids.append("X-0001"); self.matches["X-0001"] = OpportunityMatch("X-0001", "O-0001", "P-0001", self.owner, "NEAR_MATCH", "NEAR_MATCH", u32(65), "Applicant lacks demonstrated historical credentials o...", "The applicant's learning goal aligns perfectly with t...", u256(0))
-        self.match_ids.append("X-0002"); self.matches["X-0002"] = OpportunityMatch("X-0002", "O-0002", "P-0003", self.owner, "NEAR_MATCH", "NEAR_MATCH", u32(60), "No active or historical credentials on file. Without...", "The applicant's learning goal is an almost verbatim m...", u256(0))
-        self.match_ids.append("X-0003"); self.matches["X-0003"] = OpportunityMatch("X-0003", "O-0003", "P-0005", self.owner, "ACCEPTED", "MATCH", u32(96), "", "The applicant is a strong direct match. The active cr...", u256(30000000000000000))
-        self.total_learning_pool = u256(386600000000000000)
-        self.total_opportunity_reserve = u256(290000000000000000)
-        self.total_claimable_created = u256(198400000000000000)
-        self.governance_epoch = u32(4)
-    # MIGRATION_SNAPSHOT_END
+    @gl.public.write.payable
+    def import_snapshot(self, payload: str, expected_hash: str) -> None:
+        self._owner_only()
+        self._migration_expect(self.migration_enabled, "mode is disabled")
+        self._migration_expect(not self.migration_complete, "is already complete")
+        self._migration_expect(len(self.guild_ids) == 0, "state is not empty")
+        self._migration_expect(
+            hashlib.sha256(payload.encode()).hexdigest() == expected_hash,
+            "hash mismatch",
+        )
+
+        try:
+            data = json.loads(payload)
+            source = data["source"]
+            overview = data["overview"]
+            profile = data["profile"]
+        except Exception:
+            raise gl.vm.UserError(f"{EXPECTED} Migration payload is invalid")
+
+        self._migration_expect(
+            source["network"] == "StudioNet", "source network mismatch"
+        )
+        self._migration_expect(
+            source["contract"].lower()
+            == "0xcd0ea9f2e9058998d0e7d6c81c520cded522bf1c",
+            "source contract mismatch",
+        )
+        self._migration_expect(
+            int(source["accepted_transactions"]) == 72,
+            "source transaction count mismatch",
+        )
+
+        expected_counts = {
+            "guilds": 3,
+            "mentors": 3,
+            "standards": 6,
+            "paths": 9,
+            "targets": 9,
+            "attestations": 6,
+            "evidence": 7,
+            "credentials": 6,
+            "challenges": 1,
+            "opportunities": 4,
+            "matches": 3,
+        }
+        for key, count in expected_counts.items():
+            self._migration_expect(
+                len(data[key]) == count, f"{key} count mismatch"
+            )
+
+        for r in data["guilds"]:
+            item = Guild(
+                r["id"],
+                Address(r["founder"]),
+                r["name"],
+                r["domain"],
+                r["charter_url"],
+                u32(r["reputation"]),
+                u32(r["mentor_count"]),
+                u32(r["path_count"]),
+                u32(r["standard_count"]),
+                u256(int(r["pool"])),
+                r["status"],
+            )
+            self.guild_ids.append(item.id)
+            self.guilds[item.id] = item
+
+        for r in data["mentors"]:
+            item = Mentor(
+                r["id"],
+                Address(r["account"]),
+                r["guild_id"],
+                r["name"],
+                r["specialty"],
+                r["profile_url"],
+                u32(r["reputation"]),
+                u32(r["attestations"]),
+                u32(r["successful_reviews"]),
+                r["status"],
+            )
+            self.mentor_ids.append(item.id)
+            self.mentors[item.id] = item
+
+        for r in data["standards"]:
+            item = CompetencyStandard(
+                r["id"],
+                r["guild_id"],
+                Address(r["author"]),
+                r["title"],
+                r["description"],
+                r["rubric_url"],
+                r["status"],
+                u32(r["yes"]),
+                u32(r["no"]),
+                u32(r["epoch"]),
+            )
+            self.standard_ids.append(item.id)
+            self.standards[item.id] = item
+
+        for r in data["paths"]:
+            item = LearningPath(
+                r["id"],
+                Address(r["apprentice"]),
+                r["guild_id"],
+                r["title"],
+                r["goal"],
+                r["portfolio_url"],
+                r["status"],
+                u32(r["target_count"]),
+                u32(r["credential_count"]),
+                u32(r["evidence_count"]),
+                u32(r["challenge_count"]),
+                u256(int(r["grant_per_credential"])),
+                u256(int(r["grant_pool"])),
+                u32(r["average_proficiency"]),
+            )
+            self.path_ids.append(item.id)
+            self.paths[item.id] = item
+
+        for r in data["targets"]:
+            item = SkillTarget(
+                r["id"],
+                r["path_id"],
+                r["standard_id"],
+                r["label"],
+                r["objective"],
+                r["status"],
+                r["evidence_id"],
+                r["credential_id"],
+                u32(r["proficiency"]),
+                u32(r["confidence"]),
+                r["verdict"],
+                r["reasoning"],
+            )
+            self.target_ids.append(item.id)
+            self.targets[item.id] = item
+
+        for r in data["attestations"]:
+            item = PracticeAttestation(
+                r["id"],
+                r["path_id"],
+                r["target_id"],
+                r["mentor_id"],
+                r["statement"],
+                r["evidence_url"],
+                r["status"],
+            )
+            self.attestation_ids.append(item.id)
+            self.attestations[item.id] = item
+
+        for r in data["evidence"]:
+            item = PortfolioEvidence(
+                r["id"],
+                r["path_id"],
+                r["target_id"],
+                Address(r["author"]),
+                r["summary"],
+                r["evidence_url"],
+                r["status"],
+            )
+            self.evidence_ids.append(item.id)
+            self.evidence[item.id] = item
+
+        for r in data["credentials"]:
+            item = Credential(
+                r["id"],
+                r["path_id"],
+                r["target_id"],
+                r["standard_id"],
+                Address(r["holder"]),
+                r["title"],
+                u32(r["proficiency"]),
+                u32(r["confidence"]),
+                r["status"],
+                r["reasoning"],
+                u32(r["challenge_count"]),
+            )
+            self.credential_ids.append(item.id)
+            self.credentials[item.id] = item
+
+        for r in data["challenges"]:
+            item = CredentialChallenge(
+                r["id"],
+                r["credential_id"],
+                Address(r["challenger"]),
+                r["grounds"],
+                r["evidence_url"],
+                u256(int(r["bond"])),
+                r["status"],
+                r["verdict"],
+                r["reasoning"],
+            )
+            self.challenge_ids.append(item.id)
+            self.challenges[item.id] = item
+
+        for r in data["opportunities"]:
+            item = Opportunity(
+                r["id"],
+                Address(r["publisher"]),
+                r["guild_id"],
+                r["title"],
+                r["description"],
+                r["requirements"],
+                r["public_url"],
+                u256(int(r["reward"])),
+                u256(int(r["reserve"])),
+                r["status"],
+                u32(r["application_count"]),
+                r["accepted_match_id"],
+            )
+            self.opportunity_ids.append(item.id)
+            self.opportunities[item.id] = item
+
+        for r in data["matches"]:
+            item = OpportunityMatch(
+                r["id"],
+                r["opportunity_id"],
+                r["path_id"],
+                Address(r["applicant"]),
+                r["status"],
+                r["verdict"],
+                u32(r["fit_score"]),
+                r["gaps"],
+                r["reasoning"],
+                u256(int(r["reward_created"])),
+            )
+            self.match_ids.append(item.id)
+            self.matches[item.id] = item
+
+        learning_pool = u256(int(overview["total_learning_pool"]))
+        opportunity_reserve = u256(
+            int(overview["total_opportunity_reserve"])
+        )
+        claimable_amount = u256(int(profile["claimable"]))
+        required_backing = (
+            learning_pool + opportunity_reserve + claimable_amount
+        )
+        self._migration_expect(
+            required_backing == u256(875000000000000000),
+            "backing calculation mismatch",
+        )
+        self._migration_expect(
+            gl.message.value == required_backing,
+            "GEN backing mismatch",
+        )
+
+        profile_account = Address(profile["account"])
+        self.claimable[profile_account] = claimable_amount
+        self.account_reputation[profile_account] = u32(
+            profile["reputation"]
+        )
+        self.total_learning_pool = learning_pool
+        self.total_opportunity_reserve = opportunity_reserve
+        self.total_claimable_created = u256(
+            int(overview["total_claimable_created"])
+        )
+        self.governance_epoch = u32(overview["governance_epoch"])
+        self.migration_source_network = source["network"]
+        self.migration_source_contract = source["contract"]
+        self.migration_source_transactions = u32(
+            source["accepted_transactions"]
+        )
+        self.migration_snapshot_hash = expected_hash
+        self.migration_backing = required_backing
+        self.migration_complete = True
+
 
     def _text(self, value: str, label: str, minimum: int, maximum: int):
         length = len(value.strip())
@@ -1260,6 +1471,9 @@ Return JSON exactly:
             "migration_source_transactions": int(
                 self.migration_source_transactions
             ),
+            "migration_snapshot_hash": self.migration_snapshot_hash,
+            "migration_backing": str(self.migration_backing),
+            "migration_complete": self.migration_complete,
             "total_learning_pool": str(self.total_learning_pool),
             "total_opportunity_reserve": str(
                 self.total_opportunity_reserve
