@@ -81,6 +81,14 @@ async function inspect(name, viewport, connected = false, persistenceCheck = fal
       submitEnabled: await page.locator(".pattern-submit").isEnabled(),
     });
     await page.locator(".pattern-close").click();
+    await page.locator('[data-view="paths"]').click();
+    await page.getByRole("button", { name: /Peer Learning Coordinator/ }).click();
+    interactions.push({
+      view: "transaction-eligibility",
+      reviewDisabled: await page.getByRole("button", { name: "Run consensus" }).isDisabled(),
+      evidenceEnabled: await page.getByRole("button", { name: "Submit evidence" }).isEnabled(),
+      reason: await page.getByRole("button", { name: "Run consensus" }).getAttribute("title"),
+    });
     if (persistenceCheck) {
       await page.reload({ waitUntil: "domcontentloaded" });
       await page.locator(".path-scrap").first().waitFor({ timeout: 180_000 });

@@ -6,6 +6,8 @@
     "deploy": "node scripts/deploy-bradbury.mjs",
     "snapshot:build": "node scripts/build-migration-payload.mjs",
     "snapshot:import": "node scripts/import-bradbury-snapshot.mjs",
+    "smoke:write": "node scripts/smoke-write-bradbury.mjs",
+    "test:frontend": "node scripts/test-frontend-guards.mjs",
     "verify:live": "node scripts/verify-bradbury.mjs"
   },
   "devDependencies": {

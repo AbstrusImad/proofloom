@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createClient } from "genlayer-js";
 import { testnetBradbury } from "genlayer-js/chains";
 
@@ -9,6 +9,30 @@ const migration = JSON.parse(
 const manifest = JSON.parse(
   readFileSync("deployments/migration-manifest.json"),
 );
+const expectedState = structuredClone(migration);
+let expectedBalance = BigInt(manifest.backingWei);
+const trackedActivity = [];
+if (existsSync("deployments/write-smoke.json")) {
+  const smoke = JSON.parse(readFileSync("deployments/write-smoke.json"));
+  if (
+    smoke.functionName !== "sponsor_path" ||
+    smoke.status !== "ACCEPTED" ||
+    smoke.executionResult !== "FINISHED_WITH_RETURN"
+  ) {
+    throw new Error("Unsupported post-migration activity record");
+  }
+  const path = expectedState.paths.find((item) => item.id === smoke.args[0]);
+  if (!path) throw new Error("Tracked sponsorship path is missing");
+  path.grant_pool = (
+    BigInt(path.grant_pool || 0) + BigInt(smoke.valueWei)
+  ).toString();
+  expectedState.overview.total_learning_pool = (
+    BigInt(expectedState.overview.total_learning_pool) +
+    BigInt(smoke.valueWei)
+  ).toString();
+  expectedBalance += BigInt(smoke.valueWei);
+  trackedActivity.push(smoke);
+}
 const client = createClient({ chain: testnetBradbury });
 const methods = [
   "get_overview",
@@ -48,7 +72,7 @@ for (const functionName of methods) {
 }
 
 const expectedOverview = {
-  ...migration.overview,
+  ...expectedState.overview,
   migration_source_network: migration.source.network,
   migration_source_contract: migration.source.contract,
   migration_source_transactions: migration.source.accepted_transactions,
@@ -123,20 +147,20 @@ const collectionPairs = [
 ];
 for (const [method, key] of collectionPairs) {
   const actual = JSON.stringify(normalize(state[method]));
-  const expected = JSON.stringify(normalize(migration[key]));
+  const expected = JSON.stringify(normalize(expectedState[key]));
   if (actual !== expected) {
     throw new Error(`Bradbury state differs from StudioNet for ${key}`);
   }
 }
 if (
   JSON.stringify(normalize(profile)) !==
-  JSON.stringify(normalize(migration.profile))
+  JSON.stringify(normalize(expectedState.profile))
 ) {
   throw new Error("Bradbury profile differs from the StudioNet profile");
 }
-if (balance.toString() !== manifest.backingWei) {
+if (balance.toString() !== expectedBalance.toString()) {
   throw new Error(
-    `Bradbury backing mismatch: expected ${manifest.backingWei}, received ${balance}`,
+    `Bradbury backing mismatch: expected ${expectedBalance}, received ${balance}`,
   );
 }
 
@@ -145,6 +169,7 @@ const output = {
   contractAddress: deployment.contractAddress,
   network: "testnet-bradbury",
   migrationVerified: true,
+  trackedActivityVerified: trackedActivity.length,
   snapshotHash: manifest.snapshotHash,
   contractBalance: balance.toString(),
   profile,

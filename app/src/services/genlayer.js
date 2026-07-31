@@ -156,7 +156,12 @@ export async function writeContract({
   const succeeded =
     receipt.txExecutionResultName === ExecutionResult.FINISHED_WITH_RETURN ||
     leader(receipt)?.execution_result === "SUCCESS";
-  if (!succeeded) throw new Error(receiptError(receipt));
+  if (!succeeded) {
+    const error = new Error(receiptError(receipt));
+    error.hash = hash;
+    error.receipt = receipt;
+    throw error;
+  }
   onStage?.("accepted", hash);
   return { hash, receipt };
 }

@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-07-31T01:08:17.585Z",
+  "network": "testnet-bradbury",
+  "contractAddress": "0x7D4EA827ec48E0316886b371678E3BBfC02eed83",
+  "functionName": "sponsor_path",
+  "args": [
+    "P-0009"
+  ],
+  "valueWei": "1000000000000000",
+  "transactionHash": "0x671fc2d39c91fb0a720fddd671676e9af7d77e3051ae2aa863d2a81d7f03ac30",
+  "status": "ACCEPTED",
+  "executionResult": "FINISHED_WITH_RETURN",
+  "beforePool": "50000000000000000",
+  "afterPool": "51000000000000000"
+}

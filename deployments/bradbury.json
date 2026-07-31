@@ -24,6 +24,18 @@
     "executionResult": "FINISHED_WITH_RETURN",
     "importedAt": "2026-07-31T00:28:24.761Z"
   },
+  "postMigrationTransactions": [
+    {
+      "functionName": "sponsor_path",
+      "args": [
+        "P-0009"
+      ],
+      "valueWei": "1000000000000000",
+      "transactionHash": "0x671fc2d39c91fb0a720fddd671676e9af7d77e3051ae2aa863d2a81d7f03ac30",
+      "status": "ACCEPTED",
+      "executionResult": "FINISHED_WITH_RETURN"
+    }
+  ],
   "supersedes": {
     "contractAddress": "0x0a276053a8C68efCBB905df63A4a6903496Fc825",
     "transactionHash": "0x8d4f857a8375b3fa0e2be8149372b3986caec31de65d5d31d10c3c82120ffd47",

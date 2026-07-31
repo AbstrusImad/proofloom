@@ -63,7 +63,7 @@ The Bradbury deployment was initialized through a one-use, hash-verified import 
 | Evidence records | 7 |
 | Credentials | 6 total, 5 active |
 | Opportunities / reviewed matches | 4 / 3 |
-| Learning pools | 0.3866 GEN |
+| Learning pools | 0.3876 GEN |
 | Opportunity reserves | 0.29 GEN |
 | Claimable value created | 0.1984 GEN |
 
@@ -117,6 +117,8 @@ Every write action uses the same visible lifecycle:
 
 The animation stops when the receipt resolves, exposes the transaction hash, refreshes contract state, and never collapses a structured contract error into `[object Object]`.
 
+Before requesting a wallet signature, the interface filters IDs by live eligibility and evaluates the same lifecycle preconditions enforced by the contract. For example, competency consensus is unavailable while a target remains `PRACTICING`; the learner must submit evidence first. This prevents avoidable failed transactions while preserving the contract as the final authority.
+
 ## Run The Loom
 
 Requirements:
@@ -147,6 +149,7 @@ Set `VITE_CONTRACT_ADDRESS` and `VITE_EXPLORER_URL`; never place a wallet privat
 # Contract quality
 genvm-lint check contracts/proofloom.py
 pytest tests/direct -q
+pnpm test:frontend
 
 # Production frontend
 cd app
@@ -164,6 +167,7 @@ Verified in this repository:
 
 - GenVM lint: 33 public methods recognized
 - Direct contract tests: 12 passed, including exact migration-state coverage
+- Frontend transaction guards: 7 regression cases passed
 - Production Vite build: passed
 - Desktop and mobile: no horizontal overflow
 - Five connected protocol areas: passed
@@ -178,10 +182,11 @@ Chain ID:    4221
 Contract:    0x7D4EA827ec48E0316886b371678E3BBfC02eed83
 Deploy tx:   0x8663e6290da67419ef8d3ec93e0cacc2fdf0a6efca365549c1a15bb66470949e
 Import tx:   0xc726ecbac588eed962bd7ed5c33304584fb556d27f3cf20cad5e2fc887a7fe3e
+Write QA tx: 0x671fc2d39c91fb0a720fddd671676e9af7d77e3051ae2aa863d2a81d7f03ac30
 Deployer:    0x95803126315A05E642D8E46CE1d77eA2199a2A6E
 ```
 
-The migration imports all 57 records byte-for-byte from a canonical 34,839-byte payload. Its SHA-256 hash (`612dc4b0...fde96`) is stored on-chain, and the contract rejects mismatched provenance, counts, payload hashes, or backing. The import transferred 0.875 GEN: 0.3866 GEN in learning pools, 0.29 GEN in opportunity reserves, and 0.1984 GEN claimable. The live verifier compares every field, URL, narrative, profile value, and contract balance against the archived StudioNet source.
+The migration imports all 57 records byte-for-byte from a canonical 34,839-byte payload. Its SHA-256 hash (`612dc4b0...fde96`) is stored on-chain, and the contract rejects mismatched provenance, counts, payload hashes, or backing. The import transferred 0.875 GEN: 0.3866 GEN in learning pools, 0.29 GEN in opportunity reserves, and 0.1984 GEN claimable. A subsequent accepted write smoke sponsored `P-0009` with 0.001 GEN, bringing live learning pools to 0.3876 GEN. The verifier checks the immutable migration baseline and every tracked post-migration state transition.
 
 ## Repository Map
 
@@ -191,6 +196,7 @@ tests/direct/                deterministic direct-mode coverage
 scripts/deploy-bradbury.mjs deployment utility
 scripts/build-migration-payload.mjs canonical payload and manifest
 scripts/import-bradbury-snapshot.mjs one-use backed state import
+scripts/smoke-write-bradbury.mjs guarded real-write verification
 scripts/verify-bradbury.mjs complete live-state reader
 scripts/qa-ui.mjs            responsive interaction audit
 app/                         wallet-gated production frontend

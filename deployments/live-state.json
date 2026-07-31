@@ -1,10 +1,11 @@
 {
-  "verifiedAt": "2026-07-31T00:35:44.740Z",
+  "verifiedAt": "2026-07-31T01:10:12.184Z",
   "contractAddress": "0x7D4EA827ec48E0316886b371678E3BBfC02eed83",
   "network": "testnet-bradbury",
   "migrationVerified": true,
+  "trackedActivityVerified": 1,
   "snapshotHash": "612dc4b083c39a8a783c6820a0a412bf0fc702c66aaa4efca642e0db4adfde96",
-  "contractBalance": "875000000000000000",
+  "contractBalance": "876000000000000000",
   "profile": {
     "account": "0x95803126315A05E642D8E46CE1d77eA2199a2A6E",
     "claimable": "198400000000000000",
@@ -38,7 +39,7 @@
       "standards": 6,
       "targets": 9,
       "total_claimable_created": "198400000000000000",
-      "total_learning_pool": "386600000000000000",
+      "total_learning_pool": "387600000000000000",
       "total_opportunity_reserve": "290000000000000000"
     },
     "get_guilds": [
@@ -331,7 +332,7 @@
         "evidence_count": 0,
         "goal": "Coordinate a small peer learning cycle with explicit goals, constructive review, traceable revisions, inclusive participation, and a durable shared outcome.",
         "grant_per_credential": "30000000000000000",
-        "grant_pool": "50000000000000000",
+        "grant_pool": "51000000000000000",
         "guild_id": "G-001",
         "id": "P-0009",
         "portfolio_url": "https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures",

@@ -31,6 +31,7 @@ import {
   readContract,
   writeContract,
 } from "./services/genlayer";
+import { sameAddress, validateAction } from "./services/actionRules";
 
 const root = document.querySelector("#app");
 const views = [
@@ -63,6 +64,7 @@ const state = {
   data: Object.fromEntries(Object.keys(readMap).map((key) => [key, []])),
   selected: "",
   form: null,
+  formError: "",
   tx: null,
 };
 
@@ -233,6 +235,14 @@ async function loadAll() {
         }
       });
     }
+    if (state.address) {
+      try {
+        state.data.profile = await readContract("get_profile", [state.address]);
+        successes += 1;
+      } catch (error) {
+        failures.push(`profile: ${formatError(error)}`);
+      }
+    }
     if (!state.selected) state.selected = state.data.paths?.[0]?.id || "";
   } finally {
     state.loading = false;
@@ -305,7 +315,7 @@ function sectionIntro(eyebrow, title, copy, actions = []) {
     <div class="thread-actions">${actions
       .map(
         ([label, form, icon = "plus"]) =>
-          `<button data-form="${form}"><i data-lucide="${icon}"></i>${label}</button>`,
+          actionButton(label, form, icon),
       )
       .join("")}</div>
   </div>`;
@@ -338,10 +348,10 @@ function renderPaths() {
       <div class="focus-copy"><p>${esc(selected.guild_id)} · ${esc(selected.status)}</p><h2>${esc(selected.title)}</h2><span>${esc(selected.goal)}</span></div>
       <div class="target-strand">${targets.map((target) => `<span class="${statusClass(target.status)}"><b>${esc(target.label)}</b><small>${esc(target.status)} · ${target.proficiency}%</small></span>`).join("") || "<span>No targets yet</span>"}</div>
       <div class="focus-actions">
-        <button data-form="add_target"><i data-lucide="plus"></i>Add target</button>
-        <button data-form="submit_evidence"><i data-lucide="scroll-text"></i>Submit evidence</button>
-        <button data-form="review_competency"><i data-lucide="sparkles"></i>Run consensus</button>
-        <button data-form="attest_practice"><i data-lucide="user-round-check"></i>Attest practice</button>
+        ${actionButton("Add target", "add_target", "plus")}
+        ${actionButton("Submit evidence", "submit_evidence", "scroll-text")}
+        ${actionButton("Run consensus", "review_competency", "sparkles")}
+        ${actionButton("Attest practice", "attest_practice", "user-round-check")}
       </div>
     </article>` : ""}
     <div class="mentor-spool">
@@ -486,18 +496,154 @@ const forms = {
   claim: { title: "Claim available GEN", submit: "Claim balance", fields: [] },
 };
 
-function suggested(field) {
+function recordsForField(fn, field) {
   const selectedPath = itemBy("paths", state.selected);
-  const target = state.data.targets?.find((x) => x.path_id === selectedPath?.id && !["CREDENTIALLED", "REVOKED"].includes(x.status));
+  const ownedPaths =
+    state.data.paths?.filter((path) =>
+      sameAddress(path.apprentice, state.address),
+    ) || [];
+  if (field === "guild_id") {
+    const guilds = state.data.guilds || [];
+    if (["register_mentor", "create_standard"].includes(fn)) {
+      return guilds.filter((guild) => sameAddress(guild.founder, state.address));
+    }
+    return fn === "create_path"
+      ? guilds.filter((guild) => guild.status === "ACTIVE")
+      : guilds;
+  }
+  if (field === "path_id") {
+    if (fn === "sponsor_path") {
+      return (state.data.paths || []).filter((path) => path.status !== "CLOSED");
+    }
+    if (["add_target", "apply_opportunity"].includes(fn)) return ownedPaths;
+    return state.data.paths || [];
+  }
+  if (field === "target_id") {
+    let targets = (state.data.targets || []).filter(
+      (target) => !selectedPath || target.path_id === selectedPath.id,
+    );
+    if (fn === "submit_evidence") {
+      targets = targets.filter((target) =>
+        ["PRACTICING", "ATTESTED", "MORE_EVIDENCE", "REASSESSMENT"].includes(
+          target.status,
+        ),
+      );
+    }
+    if (fn === "review_competency") {
+      targets = targets.filter((target) =>
+        ["EVIDENCE_SUBMITTED", "REASSESSMENT"].includes(target.status),
+      );
+    }
+    if (fn === "attest_practice") {
+      targets = targets.filter(
+        (target) => !["CREDENTIALLED", "REVOKED"].includes(target.status),
+      );
+    }
+    return targets;
+  }
+  if (field === "mentor_id") {
+    return (state.data.mentors || []).filter(
+      (mentor) =>
+        mentor.status === "ACTIVE" &&
+        sameAddress(mentor.account, state.address) &&
+        (!selectedPath || mentor.guild_id === selectedPath.guild_id),
+    );
+  }
+  if (field === "standard_id") {
+    let standards = state.data.standards || [];
+    if (["vote_standard", "close_standard"].includes(fn)) {
+      return standards.filter(
+        (standard) =>
+          standard.status === "OPEN" &&
+          (fn !== "close_standard" ||
+            Number(standard.yes || 0) + Number(standard.no || 0) > 0),
+      );
+    }
+    if (fn === "add_target") {
+      standards = standards.filter(
+        (standard) =>
+          standard.status === "PASSED" &&
+          (!selectedPath || standard.guild_id === selectedPath.guild_id),
+      );
+    }
+    return standards;
+  }
+  if (field === "credential_id") {
+    return (state.data.credentials || []).filter((credential) =>
+      ["ACTIVE", "CONDITIONAL"].includes(credential.status),
+    );
+  }
+  if (field === "challenge_id") {
+    return (state.data.challenges || []).filter(
+      (challenge) => challenge.status === "OPEN",
+    );
+  }
+  if (field === "opportunity_id") {
+    return (state.data.opportunities || []).filter(
+      (opportunity) => opportunity.status === "OPEN",
+    );
+  }
+  if (field === "match_id") {
+    return (state.data.matches || []).filter((match) =>
+      fn === "accept_match"
+        ? match.status === "MATCHED"
+        : ["PENDING", "REASSESSMENT"].includes(match.status),
+    );
+  }
+  return null;
+}
+
+function unavailableReason(fn) {
+  if (fn === "review_competency") {
+    return "Submit evidence for a target before running competency consensus.";
+  }
+  if (fn === "resolve_challenge") return "There are no open challenges.";
+  if (fn === "review_match") return "There are no pending matches to review.";
+  if (fn === "accept_match") return "There are no validator-approved matches.";
+  if (fn === "claim") return "The connected wallet has no claimable GEN.";
+  return "No eligible on-chain record is available for this action.";
+}
+
+function actionAvailability(fn) {
+  if (fn === "claim") {
+    const reason = validateAction(fn, {}, state.data, state.address);
+    return { enabled: !reason, reason };
+  }
+  const idFields = forms[fn]?.fields
+    .map(([name]) => name)
+    .filter((name) => name.endsWith("_id"));
+  const blocked = idFields?.some((field) => {
+    const records = recordsForField(fn, field);
+    return records && records.length === 0;
+  });
+  return {
+    enabled: !blocked,
+    reason: blocked ? unavailableReason(fn) : "",
+  };
+}
+
+function actionButton(label, fn, icon = "plus") {
+  const availability = actionAvailability(fn);
+  const title = availability.reason
+    ? ` title="${esc(availability.reason)}"`
+    : "";
+  return `<button data-form="${fn}"${availability.enabled ? "" : " disabled"}${title}><i data-lucide="${icon}"></i>${label}</button>`;
+}
+
+function recordLabel(item) {
+  return `${item.id} · ${item.title || item.name || item.label || item.status}`;
+}
+
+function suggested(fn, field) {
+  const selectedPath = itemBy("paths", state.selected);
+  const records = recordsForField(fn, field);
+  if (records) {
+    const selectedRecord = records.find((item) => item.id === selectedPath?.id);
+    return (selectedRecord || records[0])?.id || "";
+  }
   const map = {
     path_id: selectedPath?.id,
     guild_id: selectedPath?.guild_id,
-    target_id: target?.id || state.data.targets?.find((x) => x.status === "PRACTICING")?.id,
-    credential_id: state.data.credentials?.find((x) => ["ACTIVE", "CONDITIONAL"].includes(x.status))?.id,
-    challenge_id: state.data.challenges?.find((x) => x.status === "OPEN")?.id,
-    standard_id: state.data.standards?.find((x) => x.status === "OPEN")?.id,
-    opportunity_id: state.data.opportunities?.find((x) => x.status === "OPEN")?.id,
-    match_id: state.data.matches?.find((x) => !["ACCEPTED", "REJECTED"].includes(x.status))?.id,
     account: state.address,
   };
   return map[field] || "";
@@ -505,21 +651,30 @@ function suggested(field) {
 
 function renderPatternSheet() {
   const config = forms[state.form];
+  const availability = actionAvailability(state.form);
   return `<div class="pattern-backdrop" data-action="close-form">
     <form class="pattern-sheet" id="action-form" data-function="${state.form}">
       <button type="button" class="pattern-close" data-action="close-form" aria-label="Close"><i data-lucide="x"></i></button>
       <p>ON-CHAIN ACTION</p><h2>${config.title}</h2>
       ${config.intelligent ? `<div class="intelligence-note"><i data-lucide="sparkles"></i><span>GenLayer validators will evaluate this action. Their consensus and reasoning will be written on-chain.</span></div>` : ""}
       <div class="pattern-fields">
-        ${config.fields.map(([name, label, type = "text", options = []]) => fieldMarkup(name, label, type, options)).join("")}
+        ${config.fields.map(([name, label, type = "text", options = []]) => fieldMarkup(state.form, name, label, type, options)).join("")}
       </div>
-      <button class="pattern-submit" type="submit"><span>${config.submit}</span><i data-lucide="${config.intelligent ? "sparkles" : "circle-dot"}"></i></button>
+      ${state.formError || !availability.enabled ? `<div class="form-error" role="alert">${esc(state.formError || availability.reason)}</div>` : ""}
+      <button class="pattern-submit" type="submit" ${availability.enabled ? "" : "disabled"}><span>${config.submit}</span><i data-lucide="${config.intelligent ? "sparkles" : "circle-dot"}"></i></button>
     </form>
   </div>`;
 }
 
-function fieldMarkup(name, label, type, options) {
-  const value = suggested(name);
+function fieldMarkup(fn, name, label, type, options) {
+  const records = recordsForField(fn, name);
+  if (records) {
+    const value = suggested(fn, name);
+    return `<label><span>${label}</span><select name="${name}" ${records.length ? "required" : "disabled"}>
+      ${records.length ? records.map((item) => `<option value="${esc(item.id)}" ${item.id === value ? "selected" : ""}>${esc(recordLabel(item))}</option>`).join("") : '<option value="">No eligible records</option>'}
+    </select></label>`;
+  }
+  const value = suggested(fn, name);
   if (type === "textarea") return `<label><span>${label}</span><textarea name="${name}" required>${esc(value)}</textarea></label>`;
   if (type === "select") return `<label><span>${label}</span><select name="${name}" required>${options.map(([key, text]) => `<option value="${key}">${text}</option>`).join("")}</select></label>`;
   return `<label><span>${label}</span><input name="${name}" type="${type}" value="${esc(value)}" ${type === "number" ? 'min="0" step="0.001"' : ""} required /></label>`;
@@ -555,6 +710,12 @@ async function submitAction(form) {
   const fn = form.dataset.function;
   const config = forms[fn];
   const raw = Object.fromEntries(new FormData(form));
+  const validation = validateAction(fn, raw, state.data, state.address);
+  if (validation) {
+    state.formError = validation;
+    app();
+    return;
+  }
   const value = config.value ? toWei(raw.value) : undefined;
   const args = config.fields
     .filter(([name]) => name !== "value")
@@ -583,7 +744,11 @@ async function submitAction(form) {
     state.tx = { stage: "accepted", hash: result.hash, message: "The result is now visible in the refreshed protocol state." };
     app();
   } catch (error) {
-    state.tx = { stage: "failed", message: formatError(error) };
+    state.tx = {
+      stage: "failed",
+      hash: error?.hash || state.tx?.hash,
+      message: formatError(error),
+    };
     app();
   }
 }
@@ -631,6 +796,7 @@ root.addEventListener("click", async (event) => {
   if (target.dataset.action === "close-form") {
     if (event.target === target || target.matches("button")) {
       state.form = null;
+      state.formError = "";
       app();
     }
     return;
@@ -652,6 +818,7 @@ root.addEventListener("click", async (event) => {
   }
   if (target.dataset.form) {
     state.form = target.dataset.form;
+    state.formError = "";
     app();
   }
 });
